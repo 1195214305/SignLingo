@@ -294,28 +294,29 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
         )}
       </div>
 
-      {/* 实时识别结果大字显示 */}
+      {/* 实时识别结果详细显示 */}
       {currentGesture && !isLoading && !error && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
             marginTop: '1rem',
-            padding: '1rem',
+            padding: '1.25rem',
             background: isMatched ? 'linear-gradient(135deg, #d1fae5, #a7f3d0)' : 'linear-gradient(135deg, #f0fdfa, #ccfbf1)',
-            borderRadius: '0.75rem',
-            textAlign: 'center',
+            borderRadius: '1rem',
             border: isMatched ? '2px solid #22c55e' : '2px solid #14b8a6'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-            <span style={{ fontSize: '3rem' }}>{currentGesture.emoji}</span>
-            <div>
+          {/* 手势名称和emoji */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <span style={{ fontSize: '3.5rem' }}>{currentGesture.emoji}</span>
+            <div style={{ flex: 1 }}>
               <p style={{
-                fontSize: '1.5rem',
+                fontSize: '1.75rem',
                 fontWeight: 700,
                 color: isMatched ? '#166534' : '#0f766e',
-                margin: 0
+                margin: 0,
+                lineHeight: 1.2
               }}>
                 {currentGesture.name}
               </p>
@@ -327,7 +328,104 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
                 {currentGesture.nameEn}
               </p>
             </div>
+            {isMatched && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                style={{
+                  background: '#22c55e',
+                  borderRadius: '50%',
+                  padding: '0.5rem'
+                }}
+              >
+                <CheckCircle style={{ width: '1.5rem', height: '1.5rem', color: 'white' }} />
+              </motion.div>
+            )}
           </div>
+
+          {/* 手势含义 */}
+          {currentGesture.meaning && (
+            <div style={{
+              background: 'rgba(255,255,255,0.6)',
+              borderRadius: '0.5rem',
+              padding: '0.75rem',
+              marginBottom: '0.75rem'
+            }}>
+              <p style={{
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                color: '#0f766e',
+                margin: '0 0 0.25rem 0',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}>
+                含义
+              </p>
+              <p style={{
+                fontSize: '0.875rem',
+                color: '#1c1917',
+                margin: 0,
+                lineHeight: 1.5
+              }}>
+                {currentGesture.meaning}
+              </p>
+            </div>
+          )}
+
+          {/* 使用场景和文化背景 */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+            {currentGesture.usage && (
+              <div style={{
+                background: 'rgba(255,255,255,0.4)',
+                borderRadius: '0.5rem',
+                padding: '0.5rem 0.75rem'
+              }}>
+                <p style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 600,
+                  color: '#0d9488',
+                  margin: '0 0 0.125rem 0',
+                  textTransform: 'uppercase'
+                }}>
+                  使用场景
+                </p>
+                <p style={{
+                  fontSize: '0.75rem',
+                  color: '#44403c',
+                  margin: 0,
+                  lineHeight: 1.4
+                }}>
+                  {currentGesture.usage}
+                </p>
+              </div>
+            )}
+            {currentGesture.culture && (
+              <div style={{
+                background: 'rgba(255,255,255,0.4)',
+                borderRadius: '0.5rem',
+                padding: '0.5rem 0.75rem'
+              }}>
+                <p style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 600,
+                  color: '#0d9488',
+                  margin: '0 0 0.125rem 0',
+                  textTransform: 'uppercase'
+                }}>
+                  文化背景
+                </p>
+                <p style={{
+                  fontSize: '0.75rem',
+                  color: '#44403c',
+                  margin: 0,
+                  lineHeight: 1.4
+                }}>
+                  {currentGesture.culture}
+                </p>
+              </div>
+            )}
+          </div>
+
           {isMatched && (
             <motion.p
               initial={{ opacity: 0 }}
@@ -336,7 +434,8 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
                 marginTop: '0.75rem',
                 fontSize: '1rem',
                 fontWeight: 600,
-                color: '#166534'
+                color: '#166534',
+                textAlign: 'center'
               }}
             >
               太棒了！手势正确！
@@ -346,7 +445,8 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
             <p style={{
               marginTop: '0.75rem',
               fontSize: '0.875rem',
-              color: '#b45309'
+              color: '#b45309',
+              textAlign: 'center'
             }}>
               当前目标: {targetGesture.name} {targetGesture.emoji}
             </p>

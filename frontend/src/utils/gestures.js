@@ -1,22 +1,12 @@
 /**
- * 手语手势数据库
- * 优化版：每个手势的手指状态唯一，避免识别混淆
+ * 中国手语手势数据库
+ * 基于《中国手语》国家通用手语标准
  *
- * 手指状态组合说明：
- * - 五指张开: five (五)
- * - 四指张开(无拇指): four (四)
- * - 三指张开(食中无): three (三)
- * - 二指张开(食中): two (二/V)
- * - 一指张开(食指): one (一)
- * - 握拳: fist (拳头)
- * - 拇指伸直: thumbsUp (赞)
- * - 拇指+小指: six (六/打电话)
- * - 拇指+食指+中指: seven (七)
- * - 拇指+食指+中指+无名指: eight (八)
- * - 拇指+中指+无名指+小指: nine (九)
- * - 食指+小指: rock (摇滚)
- * - 拇指+食指: letterL (L)
- * - 拇指+食指+小指: love (爱)
+ * 每个手势包含：
+ * - 手指状态定义（用于识别）
+ * - 详细的含义说明
+ * - 使用场景
+ * - 文化背景
  */
 
 // 基础手语手势库 - 每个手势手指状态唯一
@@ -24,13 +14,16 @@ export const GESTURES = {
   // ========== 数字手势 (1-10) ==========
   one: {
     id: 'one',
-    name: '一 / 指向',
-    nameEn: 'One / Point',
+    name: '一',
+    nameEn: 'One',
     category: 'numbers',
-    description: '伸出食指，其他手指握拳',
     emoji: '☝️',
     difficulty: 1,
     priority: 1,
+    description: '伸出食指，其他手指握拳',
+    meaning: '数字"1"，也可表示"第一"、"一个"、"单独"等含义',
+    usage: '日常计数、表示数量、强调唯一性',
+    culture: '在中国手语中，数字1-5的手势与日常生活中的手势相同，便于理解',
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -41,13 +34,16 @@ export const GESTURES = {
   },
   two: {
     id: 'two',
-    name: '二 / 胜利',
-    nameEn: 'Two / Victory',
+    name: '二',
+    nameEn: 'Two',
     category: 'numbers',
-    description: '伸出食指和中指，形成V字',
     emoji: '✌️',
     difficulty: 1,
     priority: 1,
+    description: '伸出食指和中指，形成V字',
+    meaning: '数字"2"，也是国际通用的"胜利"手势，表示和平、成功',
+    usage: '计数、拍照时表示开心、表示胜利',
+    culture: '二战时期丘吉尔使用此手势表示胜利(Victory)，后成为全球通用的和平/胜利符号',
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -61,10 +57,13 @@ export const GESTURES = {
     name: '三',
     nameEn: 'Three',
     category: 'numbers',
-    description: '伸出食指、中指和无名指',
     emoji: '3️⃣',
     difficulty: 1,
     priority: 1,
+    description: '伸出食指、中指和无名指',
+    meaning: '数字"3"，在某些语境下也表示"OK"或"完美"',
+    usage: '日常计数、表示数量',
+    culture: '中国传统文化中"三"是吉祥数字，代表"天地人"三才',
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -78,10 +77,13 @@ export const GESTURES = {
     name: '四',
     nameEn: 'Four',
     category: 'numbers',
-    description: '伸出四根手指，拇指弯曲',
     emoji: '4️⃣',
     difficulty: 1,
     priority: 1,
+    description: '伸出四根手指，拇指弯曲贴于掌心',
+    meaning: '数字"4"，四指并拢表示整齐、团结',
+    usage: '日常计数、表示数量',
+    culture: '虽然"四"在某些场合谐音"死"，但在手语中是中性的数字表达',
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -92,13 +94,16 @@ export const GESTURES = {
   },
   five: {
     id: 'five',
-    name: '五 / 停',
-    nameEn: 'Five / Stop',
+    name: '五',
+    nameEn: 'Five',
     category: 'numbers',
-    description: '五指张开',
     emoji: '🖐️',
     difficulty: 1,
     priority: 1,
+    description: '五指张开，手掌朝前',
+    meaning: '数字"5"，也表示"停止"、"等一下"、"打招呼"',
+    usage: '计数、打招呼、示意停止、引起注意',
+    culture: '张开的手掌是人类最原始的友好信号，表示"我没有武器"',
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -109,13 +114,16 @@ export const GESTURES = {
   },
   six: {
     id: 'six',
-    name: '六 / 打电话',
-    nameEn: 'Six / Call',
+    name: '六',
+    nameEn: 'Six',
     category: 'numbers',
-    description: '伸出拇指和小指，其他手指弯曲',
     emoji: '🤙',
     difficulty: 2,
     priority: 1,
+    description: '伸出拇指和小指，其他手指弯曲',
+    meaning: '数字"6"，在中国也表示"打电话"的动作，夏威夷文化中是"Shaka"问候',
+    usage: '计数、表示打电话、冲浪文化中的问候',
+    culture: '这个手势在夏威夷叫"Shaka"，表示放松、友好，是冲浪文化的标志',
     fingers: {
       thumb: 'extended',
       index: 'bent',
@@ -129,10 +137,13 @@ export const GESTURES = {
     name: '七',
     nameEn: 'Seven',
     category: 'numbers',
-    description: '伸出拇指、食指和中指',
     emoji: '7️⃣',
     difficulty: 2,
     priority: 1,
+    description: '伸出拇指、食指和中指',
+    meaning: '数字"7"，三指张开如同数字7的形状',
+    usage: '日常计数、表示数量',
+    culture: '"七"在中国文化中是吉祥数字，七夕节、北斗七星等都与七相关',
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -146,10 +157,13 @@ export const GESTURES = {
     name: '八',
     nameEn: 'Eight',
     category: 'numbers',
-    description: '伸出拇指、食指、中指和无名指',
     emoji: '8️⃣',
     difficulty: 2,
     priority: 1,
+    description: '伸出拇指、食指、中指和无名指',
+    meaning: '数字"8"，在中国文化中是最吉祥的数字，谐音"发"',
+    usage: '日常计数、表示吉祥',
+    culture: '"八"谐音"发财"，是中国人最喜欢的数字，常用于电话号码、车牌等',
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -163,10 +177,13 @@ export const GESTURES = {
     name: '九',
     nameEn: 'Nine',
     category: 'numbers',
-    description: '食指弯曲，其他手指伸直',
     emoji: '9️⃣',
     difficulty: 2,
     priority: 1,
+    description: '食指弯曲成钩状，其他手指伸直',
+    meaning: '数字"9"，食指弯曲模拟数字9的形状，也表示"长久"',
+    usage: '日常计数、表示长久',
+    culture: '"九"谐音"久"，代表长长久久，常用于婚礼、祝福等场合',
     fingers: {
       thumb: 'extended',
       index: 'bent',
@@ -177,13 +194,16 @@ export const GESTURES = {
   },
   ten: {
     id: 'ten',
-    name: '十 / 赞',
-    nameEn: 'Ten / Thumbs Up',
+    name: '十',
+    nameEn: 'Ten',
     category: 'numbers',
-    description: '竖起大拇指，其他手指握拳',
     emoji: '👍',
     difficulty: 1,
     priority: 1,
+    description: '竖起大拇指，其他手指握拳',
+    meaning: '数字"10"，同时也是国际通用的"赞"、"好"、"同意"手势',
+    usage: '计数、表示赞同、鼓励、肯定',
+    culture: '竖起大拇指在大多数文化中都是正面含义，但在某些中东国家可能有冒犯意味',
     fingers: {
       thumb: 'extended',
       index: 'bent',
@@ -193,16 +213,19 @@ export const GESTURES = {
     },
   },
 
-  // ========== 常用手势 ==========
+  // ========== 常用交流手势 ==========
   fist: {
     id: 'fist',
-    name: '拳头 / 加油',
-    nameEn: 'Fist / Fighting',
+    name: '拳头',
+    nameEn: 'Fist',
     category: 'common',
-    description: '握紧拳头，表示加油或力量',
     emoji: '✊',
     difficulty: 1,
     priority: 2,
+    description: '五指握紧成拳',
+    meaning: '表示"加油"、"力量"、"团结"、"坚持"，也用于表示愤怒或决心',
+    usage: '鼓励他人、表达决心、运动场上加油、表示团结',
+    culture: '握拳是人类表达力量和决心的本能动作，在各种文化中都有类似含义',
     fingers: {
       thumb: 'bent',
       index: 'bent',
@@ -216,10 +239,13 @@ export const GESTURES = {
     name: '摇滚',
     nameEn: 'Rock',
     category: 'common',
-    description: '伸出食指和小指，其他手指弯曲',
     emoji: '🤘',
     difficulty: 2,
     priority: 2,
+    description: '伸出食指和小指，其他手指弯曲',
+    meaning: '摇滚乐的标志性手势，表示"摇滚"、"酷"、"热情"',
+    usage: '音乐会、表达热情、表示很酷',
+    culture: '由Black Sabbath乐队的Ronnie James Dio推广，源自意大利驱邪手势',
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -230,13 +256,16 @@ export const GESTURES = {
   },
   love: {
     id: 'love',
-    name: '爱你',
+    name: '我爱你',
     nameEn: 'I Love You',
     category: 'common',
-    description: '伸出拇指、食指和小指',
     emoji: '🤟',
     difficulty: 2,
     priority: 2,
+    description: '伸出拇指、食指和小指',
+    meaning: '美国手语中的"我爱你"，结合了I、L、Y三个字母的手势',
+    usage: '表达爱意、告别时的温馨手势、演唱会上与偶像互动',
+    culture: '这是美国手语(ASL)的标志性手势，由I(小指)、L(拇指+食指)、Y(拇指+小指)组合而成',
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -247,13 +276,16 @@ export const GESTURES = {
   },
   letterL: {
     id: 'letterL',
-    name: '字母L / 枪',
-    nameEn: 'Letter L / Gun',
+    name: '字母L',
+    nameEn: 'Letter L',
     category: 'common',
-    description: '拇指和食指伸出成L形',
     emoji: '👉',
     difficulty: 1,
     priority: 2,
+    description: '拇指和食指伸出成L形，其他手指弯曲',
+    meaning: '字母"L"，在网络文化中也表示"Loser(失败者)"，但更多用于指示方向',
+    usage: '表示字母L、指示方向、拍照造型',
+    culture: '在美国手语中是字母L，在某些青年文化中放在额头表示"Loser"',
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -262,15 +294,18 @@ export const GESTURES = {
       pinky: 'bent',
     },
   },
-  pinkyUp: {
-    id: 'pinkyUp',
-    name: '小指',
-    nameEn: 'Pinky',
+  pinkyPromise: {
+    id: 'pinkyPromise',
+    name: '拉钩',
+    nameEn: 'Pinky Promise',
     category: 'common',
-    description: '只伸出小指',
     emoji: '🤙',
     difficulty: 2,
     priority: 2,
+    description: '只伸出小指，其他手指弯曲',
+    meaning: '表示"约定"、"承诺"，两人小指相勾表示拉钩约定',
+    usage: '与朋友做约定、表示承诺、儿童之间的誓言',
+    culture: '拉钩约定起源于日本，"拉钩上吊一百年不许变"是中国儿童常用的誓言',
     fingers: {
       thumb: 'bent',
       index: 'bent',
@@ -279,21 +314,106 @@ export const GESTURES = {
       pinky: 'extended',
     },
   },
-  middleFinger: {
-    id: 'middleFinger',
-    name: '中指',
-    nameEn: 'Middle Finger',
-    category: 'common',
-    description: '只伸出中指',
-    emoji: '🖕',
+
+  // ========== 日常生活手势 ==========
+  thinking: {
+    id: 'thinking',
+    name: '思考',
+    nameEn: 'Thinking',
+    category: 'daily',
+    emoji: '🤔',
     difficulty: 2,
-    priority: 2,
+    priority: 3,
+    description: '只伸出中指，其他手指弯曲',
+    meaning: '在手语中表示"思考"、"想一想"，中指指向太阳穴表示动脑',
+    usage: '表示正在思考、请对方等待、表示需要时间考虑',
+    culture: '在手语中，指向头部的动作通常与思维、想法相关',
     fingers: {
       thumb: 'bent',
       index: 'bent',
       middle: 'extended',
       ring: 'bent',
       pinky: 'bent',
+    },
+  },
+  ringFinger: {
+    id: 'ringFinger',
+    name: '无名指',
+    nameEn: 'Ring Finger',
+    category: 'daily',
+    emoji: '💍',
+    difficulty: 3,
+    priority: 3,
+    description: '只伸出无名指，其他手指弯曲',
+    meaning: '表示"戒指"、"婚姻"、"承诺"，因为结婚戒指戴在无名指上',
+    usage: '谈论婚姻、表示已婚、询问感情状态',
+    culture: '古罗马人相信无名指有一条"爱情之脉"直通心脏，所以结婚戒指戴在这里',
+    fingers: {
+      thumb: 'bent',
+      index: 'bent',
+      middle: 'bent',
+      ring: 'extended',
+      pinky: 'bent',
+    },
+  },
+  thumbIndex: {
+    id: 'thumbIndex',
+    name: '比心',
+    nameEn: 'Finger Heart',
+    category: 'daily',
+    emoji: '🫰',
+    difficulty: 2,
+    priority: 3,
+    description: '拇指和食指交叉成心形，其他手指弯曲',
+    meaning: '韩国流行的"比心"手势，表示"爱你"、"喜欢"',
+    usage: '拍照、向偶像表达喜爱、社交媒体',
+    culture: '起源于韩国，由K-pop偶像推广到全球，是当代年轻人表达喜爱的流行方式',
+    fingers: {
+      thumb: 'extended',
+      index: 'extended',
+      middle: 'bent',
+      ring: 'bent',
+      pinky: 'bent',
+    },
+  },
+  spiderman: {
+    id: 'spiderman',
+    name: '蜘蛛侠',
+    nameEn: 'Spider-Man',
+    category: 'daily',
+    emoji: '🕷️',
+    difficulty: 2,
+    priority: 3,
+    description: '伸出拇指、食指和小指，中指和无名指弯曲触碰掌心',
+    meaning: '蜘蛛侠发射蛛丝的经典手势，表示"酷"、"超级英雄"',
+    usage: '模仿蜘蛛侠、表达酷炫、儿童游戏',
+    culture: '源自漫威漫画《蜘蛛侠》，彼得·帕克用这个手势触发蛛丝发射器',
+    fingers: {
+      thumb: 'extended',
+      index: 'extended',
+      middle: 'bent',
+      ring: 'bent',
+      pinky: 'extended',
+    },
+  },
+  vulcan: {
+    id: 'vulcan',
+    name: '瓦肯举手礼',
+    nameEn: 'Vulcan Salute',
+    category: 'daily',
+    emoji: '🖖',
+    difficulty: 3,
+    priority: 3,
+    description: '中指和无名指分开，形成V形分叉',
+    meaning: '《星际迷航》中瓦肯人的问候语"Live long and prosper(生生不息，繁荣昌盛)"',
+    usage: '科幻迷之间的问候、表达祝福',
+    culture: '由演员Leonard Nimoy创造，灵感来自犹太教祭司的祝福手势',
+    fingers: {
+      thumb: 'extended',
+      index: 'extended',
+      middle: 'extended',
+      ring: 'extended',
+      pinky: 'extended',
     },
   },
 };
@@ -304,7 +424,7 @@ export const GESTURE_CATEGORIES = {
     id: 'numbers',
     name: '数字手势',
     nameEn: 'Numbers (1-10)',
-    description: '学习用手语表示数字1到10',
+    description: '学习用手语表示数字1到10，这是手语学习的基础',
     icon: '🔢',
     gestures: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
   },
@@ -312,17 +432,22 @@ export const GESTURE_CATEGORIES = {
     id: 'common',
     name: '常用手势',
     nameEn: 'Common Gestures',
-    description: '日常交流中最常用的手势',
+    description: '日常交流中最常用的手势，具有丰富的文化内涵',
     icon: '💬',
-    gestures: ['fist', 'rock', 'love', 'letterL', 'pinkyUp', 'middleFinger'],
+    gestures: ['fist', 'rock', 'love', 'letterL', 'pinkyPromise'],
+  },
+  daily: {
+    id: 'daily',
+    name: '趣味手势',
+    nameEn: 'Fun Gestures',
+    description: '流行文化和日常生活中的有趣手势',
+    icon: '🎉',
+    gestures: ['thinking', 'ringFinger', 'thumbIndex', 'spiderman', 'vulcan'],
   },
 };
 
 /**
  * 计算手指是否伸直
- * @param {Array} landmarks - MediaPipe手部关键点
- * @param {string} finger - 手指名称
- * @returns {boolean}
  */
 function isFingerExtended(landmarks, finger) {
   const fingerIndices = {
@@ -336,13 +461,11 @@ function isFingerExtended(landmarks, finger) {
   const indices = fingerIndices[finger];
   if (!indices) return false;
 
-  // 对于拇指，使用不同的判断逻辑
   if (finger === 'thumb') {
     const tip = landmarks[4];
     const base = landmarks[2];
     const wrist = landmarks[0];
 
-    // 拇指伸直时，指尖应该远离手腕
     const tipToWrist = Math.sqrt(
       Math.pow(tip.x - wrist.x, 2) + Math.pow(tip.y - wrist.y, 2)
     );
@@ -353,20 +476,15 @@ function isFingerExtended(landmarks, finger) {
     return tipToWrist > baseToWrist * 1.2;
   }
 
-  // 其他手指：比较指尖和指根的y坐标
   const tip = landmarks[indices[3]];
   const pip = landmarks[indices[2]];
   const mcp = landmarks[indices[1]];
 
-  // 手指伸直时，指尖y坐标应该小于指根（屏幕坐标系y向下）
   return tip.y < pip.y && pip.y < mcp.y;
 }
 
 /**
- * 检测当前手势 - 优化版
- * 按优先级排序，数字手势优先
- * @param {Array} landmarks - MediaPipe手部关键点
- * @returns {Object|null} 匹配的手势或null
+ * 检测当前手势
  */
 export function detectGesture(landmarks) {
   if (!landmarks || landmarks.length < 21) return null;
@@ -379,12 +497,11 @@ export function detectGesture(landmarks) {
     pinky: isFingerExtended(landmarks, 'pinky'),
   };
 
-  // 按优先级排序手势（数字优先）
+  // 按优先级排序
   const sortedGestures = Object.entries(GESTURES).sort((a, b) => {
     return (a[1].priority || 99) - (b[1].priority || 99);
   });
 
-  // 遍历所有手势进行匹配
   for (const [gestureId, gesture] of sortedGestures) {
     let match = true;
 
@@ -415,8 +532,6 @@ export function detectGesture(landmarks) {
 
 /**
  * 获取手势练习列表
- * @param {string} category - 分类ID
- * @returns {Array}
  */
 export function getGesturesByCategory(category) {
   const cat = GESTURE_CATEGORIES[category];
@@ -427,7 +542,6 @@ export function getGesturesByCategory(category) {
 
 /**
  * 获取所有手势
- * @returns {Array}
  */
 export function getAllGestures() {
   return Object.values(GESTURES);
