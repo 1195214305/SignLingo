@@ -160,7 +160,7 @@ function HomePage() {
                   fontSize: '0.875rem',
                   color: '#78716c'
                 }}>
-                  支持 36+ 种手势识别
+                  支持 20 种手势识别
                 </p>
               </div>
             </motion.div>

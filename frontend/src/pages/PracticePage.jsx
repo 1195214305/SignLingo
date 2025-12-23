@@ -7,13 +7,29 @@ import GestureCard from '../components/GestureCard';
 import { GESTURE_CATEGORIES, getGesturesByCategory, getAllGestures } from '../utils/gestures';
 
 // 保存进度到 localStorage
-function saveProgress(completedGestures, categoryId) {
+function saveProgress(completedGestures, categoryId, totalGestures) {
   const savedProgress = JSON.parse(localStorage.getItem('signlingo_progress') || '{}');
-  savedProgress[categoryId] = {
-    completed: completedGestures.size,
-    total: GESTURE_CATEGORIES[categoryId]?.gestures.length || 0,
-    completedIds: Array.from(completedGestures),
-  };
+
+  // 如果是 'all' 分类，需要更新所有分类的进度
+  if (categoryId === 'all') {
+    // 遍历所有分类，更新各自的完成情况
+    Object.keys(GESTURE_CATEGORIES).forEach(catId => {
+      const catGestureIds = GESTURE_CATEGORIES[catId].gestures;
+      const completedInCat = catGestureIds.filter(id => completedGestures.has(id));
+      savedProgress[catId] = {
+        completed: completedInCat.length,
+        total: catGestureIds.length,
+        completedIds: completedInCat,
+      };
+    });
+  } else {
+    savedProgress[categoryId] = {
+      completed: completedGestures.size,
+      total: GESTURE_CATEGORIES[categoryId]?.gestures.length || totalGestures,
+      completedIds: Array.from(completedGestures),
+    };
+  }
+
   localStorage.setItem('signlingo_progress', JSON.stringify(savedProgress));
 
   // 更新统计数据
@@ -34,7 +50,7 @@ function saveProgress(completedGestures, categoryId) {
     const yesterday = new Date(Date.now() - 86400000).toDateString();
     if (lastDate === yesterday) {
       savedStats.streak = (savedStats.streak || 0) + 1;
-    } else if (lastDate !== today) {
+    } else {
       savedStats.streak = 1;
     }
     savedStats.lastPracticeDate = today;
@@ -46,6 +62,18 @@ function saveProgress(completedGestures, categoryId) {
 // 加载已完成的手势
 function loadCompletedGestures(categoryId) {
   const savedProgress = JSON.parse(localStorage.getItem('signlingo_progress') || '{}');
+
+  // 如果是 'all' 分类，合并所有分类的已完成手势
+  if (categoryId === 'all') {
+    const allCompleted = new Set();
+    Object.values(savedProgress).forEach(cat => {
+      if (cat.completedIds) {
+        cat.completedIds.forEach(id => allCompleted.add(id));
+      }
+    });
+    return allCompleted;
+  }
+
   const categoryProgress = savedProgress[categoryId];
   if (categoryProgress?.completedIds) {
     return new Set(categoryProgress.completedIds);
@@ -126,7 +154,7 @@ function PracticePage() {
       setShowSuccess(true);
 
       // 保存进度到 localStorage
-      saveProgress(newCompleted, categoryId);
+      saveProgress(newCompleted, categoryId, gestures.length);
 
       // 自动进入下一个
       setTimeout(() => {
@@ -136,7 +164,7 @@ function PracticePage() {
         }
       }, 1500);
     }
-  }, [currentIndex, gestures.length, completedGestures, categoryId, challengeMode, challengeStarted, challengeComplete, challengeGestures, challengeIndex]);
+  }, [currentIndex, gestures.length, completedGestures, categoryId, challengeMode, challengeStarted, challengeComplete, challengeGestures, challengeIndex, gestures]);
 
   // 开始限时挑战
   const startChallenge = () => {

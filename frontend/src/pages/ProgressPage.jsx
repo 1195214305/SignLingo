@@ -53,7 +53,7 @@ function ProgressPage() {
       name: '数字达人',
       description: '完成所有数字手势',
       icon: '🔢',
-      unlocked: categoryProgress.numbers?.completed >= 5,
+      unlocked: categoryProgress.numbers?.completed >= 10,
     },
     {
       id: 'streak_3',
