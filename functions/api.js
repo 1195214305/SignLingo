@@ -99,9 +99,13 @@ async function handleVerify(request, env, geoInfo, corsHeaders) {
   };
 
   // 如果配置了 AI API Key，进行 AI 二次校验
-  if (env.QWEN_API_KEY && confidence >= 0.5 && confidence < 0.9) {
+  // 优先使用请求头中的用户自定义Key，其次使用环境变量
+  const userApiKey = request.headers.get('X-API-Key');
+  const apiKey = userApiKey || env.QWEN_API_KEY;
+
+  if (apiKey && confidence >= 0.5 && confidence < 0.9) {
     try {
-      const aiResult = await aiVerifyGesture(env, gestureId, landmarks);
+      const aiResult = await aiVerifyGesture({ QWEN_API_KEY: apiKey }, gestureId, landmarks);
       verificationResult.aiVerified = aiResult.verified;
       verificationResult.aiFeedback = aiResult.feedback;
     } catch (e) {

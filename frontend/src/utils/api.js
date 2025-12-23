@@ -6,6 +6,35 @@
 // API 基础路径（部署后会自动指向边缘函数）
 const API_BASE = '/api';
 
+// API Key 存储键名
+const API_KEY_STORAGE_KEY = 'signlingo_api_key';
+
+/**
+ * 获取用户设置的API Key
+ */
+export function getApiKey() {
+  return localStorage.getItem(API_KEY_STORAGE_KEY) || '';
+}
+
+/**
+ * 设置API Key
+ */
+export function setApiKey(key) {
+  if (key) {
+    localStorage.setItem(API_KEY_STORAGE_KEY, key);
+  } else {
+    localStorage.removeItem(API_KEY_STORAGE_KEY);
+  }
+}
+
+/**
+ * 检查API Key是否已配置
+ */
+export function hasApiKey() {
+  const key = getApiKey();
+  return key && key.length > 0 && key.startsWith('sk-');
+}
+
 /**
  * 调用边缘函数校验手势
  * @param {string} gestureId - 手势ID
@@ -15,10 +44,13 @@ const API_BASE = '/api';
  */
 export async function verifyGesture(gestureId, landmarks, confidence) {
   try {
+    const apiKey = getApiKey();
+
     const response = await fetch(`${API_BASE}/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(apiKey ? { 'X-API-Key': apiKey } : {}),
       },
       body: JSON.stringify({
         gestureId,
