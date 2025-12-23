@@ -2,56 +2,116 @@ import { Github, Heart } from 'lucide-react';
 
 function Footer() {
   return (
-    <footer className="bg-stone-100 border-t border-stone-200 py-6 sm:py-8 mt-auto">
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+    <footer style={{
+      background: '#f5f5f4',
+      borderTop: '1px solid #e7e5e4',
+      padding: '1.5rem 0',
+      marginTop: 'auto'
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: '1152px',
+        margin: '0 auto',
+        padding: '0 1rem'
+      }}>
         {/* 主要内容 */}
-        <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          alignItems: 'center',
+          textAlign: 'center'
+        }}>
           {/* Logo和标语 */}
-          <div className="flex items-center justify-center sm:justify-start space-x-2 text-sm text-stone-600">
-            <span className="font-medium">SignLingo</span>
-            <span className="text-stone-300 hidden sm:inline">|</span>
-            <span className="hidden sm:inline">让手语学习更简单</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '0.875rem',
+            color: '#57534e'
+          }}>
+            <span style={{ fontWeight: 500 }}>SignLingo</span>
+            <span style={{ color: '#d6d3d1' }}>|</span>
+            <span>让手语学习更简单</span>
           </div>
 
           {/* 链接 */}
-          <div className="flex items-center justify-center space-x-3 sm:space-x-4 text-xs sm:text-sm text-stone-500">
-            <span className="flex items-center space-x-1">
-              <span className="hidden sm:inline">Powered by</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            fontSize: '0.875rem',
+            color: '#78716c',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <span>Powered by</span>
               <a
                 href="https://www.aliyun.com/product/esa"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-teal-600 hover:text-teal-700 font-medium"
+                style={{
+                  color: '#0d9488',
+                  fontWeight: 500,
+                  textDecoration: 'none'
+                }}
               >
                 阿里云 ESA
               </a>
             </span>
-            <span className="text-stone-300">|</span>
+            <span style={{ color: '#d6d3d1' }}>|</span>
             <a
               href="https://github.com/1195214305/SignLingo"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-1 hover:text-stone-700"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                color: '#78716c',
+                textDecoration: 'none'
+              }}
             >
-              <Github className="w-4 h-4" />
+              <Github style={{ width: '1rem', height: '1rem' }} />
               <span>GitHub</span>
             </a>
           </div>
 
           {/* Made with love */}
-          <div className="flex items-center justify-center sm:justify-end space-x-1 text-xs sm:text-sm text-stone-500">
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.25rem',
+            fontSize: '0.875rem',
+            color: '#78716c'
+          }}>
             <span>Made with</span>
-            <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 fill-red-500" />
-            <span className="hidden sm:inline">for accessibility</span>
+            <Heart style={{ width: '0.875rem', height: '0.875rem', color: '#ef4444', fill: '#ef4444' }} />
+            <span>for accessibility</span>
           </div>
         </div>
 
         {/* 底部说明 */}
-        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-stone-200 text-center">
-          <p className="text-xs text-stone-400 leading-relaxed">
+        <div style={{
+          marginTop: '1rem',
+          paddingTop: '1rem',
+          borderTop: '1px solid #e7e5e4',
+          textAlign: 'center'
+        }}>
+          <p style={{
+            fontSize: '0.75rem',
+            color: '#a8a29e',
+            lineHeight: 1.6,
+            margin: 0
+          }}>
             本项目使用 MediaPipe 进行手势识别，旨在帮助听障人士和手语学习者
           </p>
-          <p className="text-xs text-stone-400 mt-1">
+          <p style={{
+            fontSize: '0.75rem',
+            color: '#a8a29e',
+            marginTop: '0.25rem'
+          }}>
             © 2025 SignLingo · 阿里云 ESA Pages 边缘开发大赛参赛作品
           </p>
         </div>

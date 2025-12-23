@@ -1,12 +1,27 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, CameraOff, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Camera, CameraOff, CheckCircle, AlertCircle, Loader2, Volume2, VolumeX } from 'lucide-react';
 import useHandTracking from '../hooks/useHandTracking';
+
+// 语音合成工具
+const speak = (text) => {
+  if ('speechSynthesis' in window) {
+    // 取消之前的语音
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
+  }
+};
 
 function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [matchedGesture, setMatchedGesture] = useState(null);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [lastSpokenGesture, setLastSpokenGesture] = useState(null);
   const matchTimeoutRef = useRef(null);
 
   const handleGestureDetected = useCallback((gesture) => {
@@ -18,13 +33,18 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
 
       setMatchedGesture(gesture);
 
+      // 语音反馈
+      if (soundEnabled) {
+        speak(`正确！这是${gesture.name}`);
+      }
+
       // 延迟触发匹配回调，确保用户看到成功状态
       matchTimeoutRef.current = setTimeout(() => {
         onGestureMatch?.(gesture);
         setMatchedGesture(null);
-      }, 1000);
+      }, 1500);
     }
-  }, [targetGesture, onGestureMatch]);
+  }, [targetGesture, onGestureMatch, soundEnabled]);
 
   const { isLoading, error, handsDetected, currentGesture, edgeFeedback } = useHandTracking(
     videoRef,
@@ -35,22 +55,39 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
     }
   );
 
+  // 当识别到新手势时播报（非目标手势也播报）
+  useEffect(() => {
+    if (currentGesture && soundEnabled && currentGesture.id !== lastSpokenGesture) {
+      // 只有当不是目标手势时才播报识别结果
+      if (!targetGesture || currentGesture.id !== targetGesture.id) {
+        speak(`识别到${currentGesture.name}`);
+      }
+      setLastSpokenGesture(currentGesture.id);
+    }
+  }, [currentGesture, soundEnabled, lastSpokenGesture, targetGesture]);
+
   const isMatched = matchedGesture?.id === targetGesture?.id;
 
   return (
-    <div className="relative">
+    <div style={{ position: 'relative' }}>
       {/* 摄像头容器 */}
-      <div className={`camera-container ${isMatched ? 'ring-4 ring-emerald-500' : ''}`}>
+      <div
+        className="camera-container"
+        style={{
+          boxShadow: isMatched ? '0 0 0 4px #22c55e' : undefined,
+          transition: 'box-shadow 0.3s'
+        }}
+      >
         <video
           ref={videoRef}
           autoPlay
           playsInline
           muted
-          className="w-full h-full object-cover"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
         />
 
         {/* 加载状态 */}
@@ -60,11 +97,20 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-stone-900/80 flex flex-col items-center justify-center text-white"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'rgba(28, 25, 23, 0.8)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white'
+              }}
             >
-              <Loader2 className="w-12 h-12 animate-spin mb-4" />
-              <p className="text-lg font-medium">正在加载手势识别模型...</p>
-              <p className="text-sm text-stone-400 mt-2">首次加载可能需要几秒钟</p>
+              <Loader2 style={{ width: '3rem', height: '3rem', marginBottom: '1rem', animation: 'spin 1s linear infinite' }} />
+              <p style={{ fontSize: '1.125rem', fontWeight: 500 }}>正在加载手势识别模型...</p>
+              <p style={{ fontSize: '0.875rem', color: '#a8a29e', marginTop: '0.5rem' }}>首次加载可能需要几秒钟</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -76,14 +122,25 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-stone-900/90 flex flex-col items-center justify-center text-white p-6"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'rgba(28, 25, 23, 0.9)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                padding: '1.5rem'
+              }}
             >
-              <CameraOff className="w-16 h-16 text-red-400 mb-4" />
-              <p className="text-lg font-medium text-center">无法访问摄像头</p>
-              <p className="text-sm text-stone-400 mt-2 text-center">{error}</p>
+              <CameraOff style={{ width: '4rem', height: '4rem', color: '#f87171', marginBottom: '1rem' }} />
+              <p style={{ fontSize: '1.125rem', fontWeight: 500, textAlign: 'center' }}>无法访问摄像头</p>
+              <p style={{ fontSize: '0.875rem', color: '#a8a29e', marginTop: '0.5rem', textAlign: 'center' }}>{error}</p>
               <button
                 onClick={() => window.location.reload()}
-                className="mt-4 btn-primary"
+                className="btn-primary"
+                style={{ marginTop: '1rem' }}
               >
                 重试
               </button>
@@ -98,74 +155,251 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="absolute inset-0 bg-emerald-500/20 flex items-center justify-center"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'rgba(34, 197, 94, 0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             >
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', damping: 10 }}
-                className="bg-emerald-500 rounded-full p-6"
+                style={{
+                  background: '#22c55e',
+                  borderRadius: '50%',
+                  padding: '1.5rem'
+                }}
               >
-                <CheckCircle className="w-16 h-16 text-white" />
+                <CheckCircle style={{ width: '4rem', height: '4rem', color: 'white' }} />
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* 语音开关按钮 */}
+        <button
+          onClick={() => setSoundEnabled(!soundEnabled)}
+          style={{
+            position: 'absolute',
+            top: '0.75rem',
+            right: '0.75rem',
+            background: 'rgba(0,0,0,0.5)',
+            border: 'none',
+            borderRadius: '50%',
+            padding: '0.5rem',
+            cursor: 'pointer',
+            color: 'white',
+            zIndex: 10
+          }}
+          title={soundEnabled ? '关闭语音' : '开启语音'}
+        >
+          {soundEnabled ?
+            <Volume2 style={{ width: '1.25rem', height: '1.25rem' }} /> :
+            <VolumeX style={{ width: '1.25rem', height: '1.25rem' }} />
+          }
+        </button>
       </div>
 
       {/* 状态指示器 */}
-      <div className="mt-4 flex items-center justify-center space-x-4">
+      <div style={{
+        marginTop: '1rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '1rem',
+        flexWrap: 'wrap'
+      }}>
         {!isLoading && !error && (
           <>
-            <div className={`status-indicator ${handsDetected ? 'detecting' : 'ready'}`}>
+            <div
+              className={`status-indicator ${handsDetected ? 'detecting' : 'ready'}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.5rem 1rem',
+                borderRadius: '9999px',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                background: handsDetected ? '#fef3c7' : '#dcfce7',
+                color: handsDetected ? '#92400e' : '#166534'
+              }}
+            >
               {handsDetected ? (
                 <>
-                  <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                  <span style={{
+                    width: '0.5rem',
+                    height: '0.5rem',
+                    background: '#f59e0b',
+                    borderRadius: '50%',
+                    animation: 'pulse 1s infinite'
+                  }}></span>
                   <span>检测到手部</span>
                 </>
               ) : (
                 <>
-                  <Camera className="w-4 h-4" />
+                  <Camera style={{ width: '1rem', height: '1rem' }} />
                   <span>请将手放入画面</span>
                 </>
               )}
             </div>
 
             {currentGesture && !isMatched && (
-              <div className="status-indicator bg-stone-100 text-stone-700">
-                <span>识别到: {currentGesture.name}</span>
-                <span className="text-lg">{currentGesture.emoji}</span>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  background: '#f5f5f4',
+                  color: '#44403c'
+                }}
+              >
+                <span>识别到:</span>
+                <span style={{ fontWeight: 600 }}>{currentGesture.name}</span>
+                <span style={{ fontSize: '1.25rem' }}>{currentGesture.emoji}</span>
+              </motion.div>
             )}
 
             {isMatched && (
-              <div className="status-indicator success">
-                <CheckCircle className="w-4 h-4" />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  background: '#d1fae5',
+                  color: '#065f46'
+                }}
+              >
+                <CheckCircle style={{ width: '1rem', height: '1rem' }} />
                 <span>完美!</span>
-              </div>
+              </motion.div>
             )}
           </>
         )}
       </div>
+
+      {/* 实时识别结果大字显示 */}
+      {currentGesture && !isLoading && !error && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{
+            marginTop: '1rem',
+            padding: '1rem',
+            background: isMatched ? 'linear-gradient(135deg, #d1fae5, #a7f3d0)' : 'linear-gradient(135deg, #f0fdfa, #ccfbf1)',
+            borderRadius: '0.75rem',
+            textAlign: 'center',
+            border: isMatched ? '2px solid #22c55e' : '2px solid #14b8a6'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+            <span style={{ fontSize: '3rem' }}>{currentGesture.emoji}</span>
+            <div>
+              <p style={{
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                color: isMatched ? '#166534' : '#0f766e',
+                margin: 0
+              }}>
+                {currentGesture.name}
+              </p>
+              <p style={{
+                fontSize: '0.875rem',
+                color: isMatched ? '#15803d' : '#0d9488',
+                margin: '0.25rem 0 0 0'
+              }}>
+                {currentGesture.nameEn}
+              </p>
+            </div>
+          </div>
+          {isMatched && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{
+                marginTop: '0.75rem',
+                fontSize: '1rem',
+                fontWeight: 600,
+                color: '#166534'
+              }}
+            >
+              太棒了！手势正确！
+            </motion.p>
+          )}
+          {!isMatched && targetGesture && currentGesture.id !== targetGesture.id && (
+            <p style={{
+              marginTop: '0.75rem',
+              fontSize: '0.875rem',
+              color: '#b45309'
+            }}>
+              当前目标: {targetGesture.name} {targetGesture.emoji}
+            </p>
+          )}
+        </motion.div>
+      )}
 
       {/* 边缘函数AI反馈 */}
       {edgeFeedback && edgeFeedback.feedback && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-3 p-3 bg-teal-50 border border-teal-200 rounded-lg"
+          style={{
+            marginTop: '0.75rem',
+            padding: '0.75rem 1rem',
+            background: '#f0fdfa',
+            border: '1px solid #99f6e4',
+            borderRadius: '0.5rem'
+          }}
         >
-          <div className="flex items-center space-x-2 text-sm">
-            <span className="text-teal-600 font-medium">AI反馈:</span>
-            <span className="text-teal-700">{edgeFeedback.feedback}</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '0.875rem'
+          }}>
+            <span style={{ color: '#0d9488', fontWeight: 500 }}>AI反馈:</span>
+            <span style={{ color: '#0f766e' }}>{edgeFeedback.feedback}</span>
             {edgeFeedback.aiVerified !== undefined && (
-              <span className={`px-2 py-0.5 rounded text-xs ${edgeFeedback.aiVerified ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+              <span style={{
+                padding: '0.125rem 0.5rem',
+                borderRadius: '0.25rem',
+                fontSize: '0.75rem',
+                background: edgeFeedback.aiVerified ? '#d1fae5' : '#fef3c7',
+                color: edgeFeedback.aiVerified ? '#166534' : '#92400e'
+              }}>
                 {edgeFeedback.aiVerified ? '✓ AI确认' : '需改进'}
               </span>
             )}
           </div>
         </motion.div>
       )}
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
     </div>
   );
 }

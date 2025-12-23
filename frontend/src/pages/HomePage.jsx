@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Hand, Trophy, ArrowRight, Sparkles, Globe, Zap } from 'lucide-react';
+import { Hand, Trophy, ArrowRight, Sparkles, Globe, Zap, Volume2 } from 'lucide-react';
 import { GESTURE_CATEGORIES } from '../utils/gestures';
 
 function HomePage() {
@@ -9,19 +9,29 @@ function HomePage() {
       icon: Hand,
       title: '实时手势识别',
       description: '基于 MediaPipe 的浏览器端 AI 识别，无需安装任何软件',
-      color: 'bg-teal-100 text-teal-600',
+      bgColor: '#ccfbf1',
+      iconColor: '#0f766e',
     },
     {
       icon: Zap,
       title: '边缘计算加速',
       description: '阿里云 ESA 边缘节点提供毫秒级响应，全球低延迟访问',
-      color: 'bg-amber-100 text-amber-600',
+      bgColor: '#fef3c7',
+      iconColor: '#d97706',
     },
     {
       icon: Globe,
       title: '无障碍设计',
       description: '专为听障人士和手语学习者设计，让沟通无界限',
-      color: 'bg-blue-100 text-blue-600',
+      bgColor: '#dbeafe',
+      iconColor: '#2563eb',
+    },
+    {
+      icon: Volume2,
+      title: '语音反馈',
+      description: '识别手势后自动语音播报，帮助听障人士确认手势正确性',
+      bgColor: '#fce7f3',
+      iconColor: '#db2777',
     },
   ];
 
@@ -41,8 +51,8 @@ function HomePage() {
         }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '3rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '2rem',
             alignItems: 'center'
           }}>
             {/* 左侧文字 */}
@@ -68,7 +78,7 @@ function HomePage() {
               </div>
 
               <h1 style={{
-                fontSize: 'clamp(2rem, 5vw, 3rem)',
+                fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
                 fontWeight: 700,
                 color: '#1c1917',
                 lineHeight: 1.2,
@@ -80,7 +90,7 @@ function HomePage() {
               </h1>
 
               <p style={{
-                fontSize: '1.125rem',
+                fontSize: '1rem',
                 color: '#57534e',
                 marginBottom: '2rem',
                 lineHeight: 1.7,
@@ -113,7 +123,7 @@ function HomePage() {
                 borderRadius: '1rem',
                 padding: '1.5rem',
                 boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)',
-                maxWidth: '320px',
+                maxWidth: '280px',
                 width: '100%'
               }}>
                 <div style={{
@@ -127,6 +137,7 @@ function HomePage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + i * 0.1 }}
+                      whileHover={{ scale: 1.1 }}
                       style={{
                         aspectRatio: '1',
                         background: 'linear-gradient(135deg, #fafaf9, #f5f5f4)',
@@ -134,11 +145,10 @@ function HomePage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '2rem',
+                        fontSize: '1.75rem',
                         cursor: 'pointer',
                         transition: 'transform 0.2s'
                       }}
-                      whileHover={{ scale: 1.1 }}
                     >
                       {emoji}
                     </motion.div>
@@ -150,7 +160,7 @@ function HomePage() {
                   fontSize: '0.875rem',
                   color: '#78716c'
                 }}>
-                  支持多种常用手势识别
+                  支持 36+ 种手势识别
                 </p>
               </div>
             </motion.div>
@@ -159,26 +169,26 @@ function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section style={{ padding: '4rem 0', background: 'white' }}>
+      <section style={{ padding: '3rem 0', background: 'white' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <h2 style={{
-              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+              fontSize: 'clamp(1.25rem, 4vw, 1.75rem)',
               fontWeight: 700,
               color: '#1c1917',
-              marginBottom: '1rem'
+              marginBottom: '0.75rem'
             }}>
               为什么选择 SignLingo
             </h2>
-            <p style={{ color: '#57534e', maxWidth: '600px', margin: '0 auto' }}>
+            <p style={{ color: '#57534e', maxWidth: '600px', margin: '0 auto', fontSize: '0.9375rem' }}>
               结合前沿 AI 技术与边缘计算，为您提供流畅、准确的手语学习体验
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '1.25rem'
           }}>
             {features.map((feature, i) => (
               <motion.div
@@ -190,33 +200,31 @@ function HomePage() {
                 style={{
                   background: '#fafaf9',
                   borderRadius: '1rem',
-                  padding: '2rem'
+                  padding: '1.5rem'
                 }}
               >
                 <div style={{
-                  width: '3.5rem',
-                  height: '3.5rem',
+                  width: '3rem',
+                  height: '3rem',
                   borderRadius: '0.75rem',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '1.5rem',
-                  background: feature.color.includes('teal') ? '#ccfbf1' :
-                             feature.color.includes('amber') ? '#fef3c7' : '#dbeafe',
-                  color: feature.color.includes('teal') ? '#0f766e' :
-                         feature.color.includes('amber') ? '#d97706' : '#2563eb'
+                  marginBottom: '1rem',
+                  background: feature.bgColor,
+                  color: feature.iconColor
                 }}>
-                  <feature.icon style={{ width: '1.5rem', height: '1.5rem' }} />
+                  <feature.icon style={{ width: '1.25rem', height: '1.25rem' }} />
                 </div>
                 <h3 style={{
-                  fontSize: '1.25rem',
+                  fontSize: '1.125rem',
                   fontWeight: 600,
                   color: '#1c1917',
-                  marginBottom: '0.75rem'
+                  marginBottom: '0.5rem'
                 }}>
                   {feature.title}
                 </h3>
-                <p style={{ color: '#57534e', lineHeight: 1.6 }}>
+                <p style={{ color: '#57534e', lineHeight: 1.6, fontSize: '0.875rem' }}>
                   {feature.description}
                 </p>
               </motion.div>
@@ -226,26 +234,26 @@ function HomePage() {
       </section>
 
       {/* Categories Section */}
-      <section style={{ padding: '4rem 0', background: '#fafaf9' }}>
+      <section style={{ padding: '3rem 0', background: '#fafaf9' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <h2 style={{
-              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+              fontSize: 'clamp(1.25rem, 4vw, 1.75rem)',
               fontWeight: 700,
               color: '#1c1917',
-              marginBottom: '1rem'
+              marginBottom: '0.75rem'
             }}>
               学习内容
             </h2>
-            <p style={{ color: '#57534e' }}>
+            <p style={{ color: '#57534e', fontSize: '0.9375rem' }}>
               从基础数字到日常交流，循序渐进掌握手语
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '1.25rem'
           }}>
             {Object.values(GESTURE_CATEGORIES).map((category, i) => (
               <motion.div
@@ -257,44 +265,48 @@ function HomePage() {
                 style={{
                   background: 'white',
                   borderRadius: '1rem',
-                  padding: '1.5rem',
+                  padding: '1.25rem',
                   boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                 }}
               >
                 <div style={{
                   display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between',
-                  marginBottom: '1rem'
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  marginBottom: '0.75rem'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ fontSize: '2.5rem' }}>{category.icon}</span>
-                    <div>
-                      <h3 style={{
-                        fontSize: '1.25rem',
-                        fontWeight: 600,
-                        color: '#1c1917'
-                      }}>
-                        {category.name}
-                      </h3>
-                      <p style={{ fontSize: '0.875rem', color: '#78716c' }}>
-                        {category.nameEn}
-                      </p>
-                    </div>
+                  <span style={{ fontSize: '2rem' }}>{category.icon}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <h3 style={{
+                      fontSize: '1.125rem',
+                      fontWeight: 600,
+                      color: '#1c1917',
+                      margin: 0
+                    }}>
+                      {category.name}
+                    </h3>
+                    <p style={{ fontSize: '0.75rem', color: '#78716c', margin: '0.125rem 0 0 0' }}>
+                      {category.nameEn}
+                    </p>
                   </div>
                   <span style={{
                     background: '#ccfbf1',
                     color: '#0f766e',
-                    padding: '0.25rem 0.75rem',
+                    padding: '0.25rem 0.5rem',
                     borderRadius: '9999px',
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     fontWeight: 500,
                     whiteSpace: 'nowrap'
                   }}>
-                    {category.gestures.length} 个手势
+                    {category.gestures.length} 个
                   </span>
                 </div>
-                <p style={{ color: '#57534e', marginBottom: '1rem', lineHeight: 1.6 }}>
+                <p style={{
+                  color: '#57534e',
+                  marginBottom: '0.75rem',
+                  lineHeight: 1.5,
+                  fontSize: '0.875rem'
+                }}>
                   {category.description}
                 </p>
                 <Link
@@ -302,14 +314,15 @@ function HomePage() {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.5rem',
+                    gap: '0.375rem',
                     color: '#0f766e',
                     fontWeight: 500,
-                    textDecoration: 'none'
+                    textDecoration: 'none',
+                    fontSize: '0.875rem'
                   }}
                 >
                   <span>开始学习</span>
-                  <ArrowRight style={{ width: '1rem', height: '1rem' }} />
+                  <ArrowRight style={{ width: '0.875rem', height: '0.875rem' }} />
                 </Link>
               </motion.div>
             ))}
@@ -319,7 +332,7 @@ function HomePage() {
 
       {/* CTA Section */}
       <section style={{
-        padding: '4rem 0',
+        padding: '3rem 0',
         background: 'linear-gradient(135deg, #0f766e, #14b8a6)'
       }}>
         <div style={{
@@ -329,17 +342,17 @@ function HomePage() {
           textAlign: 'center'
         }}>
           <h2 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+            fontSize: 'clamp(1.25rem, 4vw, 1.75rem)',
             fontWeight: 700,
             color: 'white',
-            marginBottom: '1rem'
+            marginBottom: '0.75rem'
           }}>
             准备好开始学习了吗？
           </h2>
           <p style={{
             color: 'rgba(255,255,255,0.9)',
-            fontSize: '1.125rem',
-            marginBottom: '2rem'
+            fontSize: '1rem',
+            marginBottom: '1.5rem'
           }}>
             只需一个摄像头，即可开始您的手语学习之旅
           </p>
@@ -351,7 +364,7 @@ function HomePage() {
               gap: '0.5rem',
               background: 'white',
               color: '#0f766e',
-              padding: '1rem 2rem',
+              padding: '0.875rem 1.75rem',
               borderRadius: '0.5rem',
               fontWeight: 600,
               textDecoration: 'none',

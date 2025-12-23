@@ -31,114 +31,236 @@ function ApiKeyModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 50,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem'
+    }}>
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-stone-900/50 backdrop-blur-sm"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(28, 25, 23, 0.5)',
+          backdropFilter: 'blur(4px)'
+        }}
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+      <div style={{
+        position: 'relative',
+        background: 'white',
+        borderRadius: '1rem',
+        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+        maxWidth: '28rem',
+        width: '100%',
+        overflow: 'hidden',
+        maxHeight: '90vh',
+        overflowY: 'auto'
+      }}>
         {/* Header */}
-        <div className="px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+        <div style={{
+          padding: '1rem 1.25rem',
+          borderBottom: '1px solid #e7e5e4',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
           <div>
-            <h3 className="text-lg font-semibold text-stone-900">API 设置</h3>
-            <p className="text-sm text-stone-500 mt-0.5">配置通义千问 API Key 以启用 AI 增强功能</p>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#1c1917', margin: 0 }}>
+              API 设置
+            </h3>
+            <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.25rem' }}>
+              配置通义千问 API Key 启用 AI 功能
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded-lg transition-colors"
+            style={{
+              padding: '0.5rem',
+              color: '#a8a29e',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: 'pointer'
+            }}
           >
-            <X className="w-5 h-5" />
+            <X style={{ width: '1.25rem', height: '1.25rem' }} />
           </button>
         </div>
 
         {/* Content */}
-        <div className="px-6 py-5">
-          <div className="space-y-4">
+        <div style={{ padding: '1.25rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {/* API Key Input */}
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-2">
+              <label style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                color: '#44403c',
+                marginBottom: '0.5rem'
+              }}>
                 通义千问 API Key
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <input
                   type={showKey ? 'text' : 'password'}
                   value={apiKeyValue}
                   onChange={(e) => setApiKeyValue(e.target.value)}
-                  placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
-                  className="w-full px-4 py-3 pr-12 border border-stone-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+                  placeholder="sk-xxxxxxxxxxxxxxxx"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 1rem',
+                    paddingRight: '3rem',
+                    border: '1px solid #d6d3d1',
+                    borderRadius: '0.5rem',
+                    fontSize: '0.875rem',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowKey(!showKey)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-1"
+                  style={{
+                    position: 'absolute',
+                    right: '0.75rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: '#a8a29e',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0.25rem'
+                  }}
                 >
-                  {showKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showKey ?
+                    <EyeOff style={{ width: '1.25rem', height: '1.25rem' }} /> :
+                    <Eye style={{ width: '1.25rem', height: '1.25rem' }} />
+                  }
                 </button>
               </div>
             </div>
 
-            <div className="bg-teal-50 rounded-xl p-4 text-sm">
-              <p className="font-medium text-teal-800 mb-2">如何获取 API Key？</p>
-              <ol className="list-decimal list-inside space-y-1.5 text-teal-700">
+            {/* Help Info */}
+            <div style={{
+              background: '#f0fdfa',
+              borderRadius: '0.5rem',
+              padding: '0.75rem',
+              fontSize: '0.75rem'
+            }}>
+              <p style={{ fontWeight: 500, color: '#115e59', marginBottom: '0.5rem' }}>
+                如何获取 API Key？
+              </p>
+              <ol style={{
+                margin: 0,
+                paddingLeft: '1.25rem',
+                color: '#0f766e',
+                lineHeight: 1.6
+              }}>
                 <li>
                   访问{' '}
                   <a
                     href="https://dashscope.console.aliyun.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-teal-600 hover:text-teal-800 underline inline-flex items-center"
+                    style={{
+                      color: '#0d9488',
+                      textDecoration: 'underline',
+                      display: 'inline-flex',
+                      alignItems: 'center'
+                    }}
                   >
                     阿里云百炼控制台
-                    <ExternalLink className="w-3 h-3 ml-1" />
+                    <ExternalLink style={{ width: '0.625rem', height: '0.625rem', marginLeft: '0.25rem' }} />
                   </a>
                 </li>
-                <li>登录后进入「API-KEY管理」</li>
-                <li>创建或复制您的 API Key</li>
+                <li>进入「API-KEY管理」</li>
+                <li>创建或复制 API Key</li>
               </ol>
-              <p className="mt-3 text-teal-600 text-xs">
-                您的 Key 仅保存在本地浏览器中，不会上传到服务器。
+              <p style={{ marginTop: '0.5rem', color: '#14b8a6', fontSize: '0.625rem' }}>
+                Key 仅保存在本地，不会上传服务器
               </p>
             </div>
 
-            <div className="bg-amber-50 rounded-xl p-4 text-sm">
-              <p className="font-medium text-amber-800 mb-1">功能说明</p>
-              <p className="text-amber-700 text-xs">
-                配置 API Key 后，系统将使用 AI 对您的手势进行二次校验，提供更精准的反馈和建议。
-                不配置也可以正常使用基础手势识别功能。
+            {/* Feature Note */}
+            <div style={{
+              background: '#fffbeb',
+              borderRadius: '0.5rem',
+              padding: '0.75rem',
+              fontSize: '0.75rem'
+            }}>
+              <p style={{ fontWeight: 500, color: '#92400e', marginBottom: '0.25rem' }}>
+                功能说明
+              </p>
+              <p style={{ color: '#b45309', fontSize: '0.625rem', lineHeight: 1.5 }}>
+                配置后将使用 AI 对手势进行二次校验，提供更精准反馈。不配置也可正常使用基础功能。
               </p>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between">
+        <div style={{
+          padding: '0.75rem 1.25rem',
+          background: '#fafaf9',
+          borderTop: '1px solid #e7e5e4',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
           <button
             onClick={handleClear}
-            className="text-sm text-stone-500 hover:text-stone-700 transition-colors"
+            style={{
+              fontSize: '0.75rem',
+              color: '#78716c',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer'
+            }}
           >
             清除
           </button>
-          <div className="flex items-center space-x-3">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button
               onClick={onClose}
-              className="px-4 py-2 text-sm text-stone-600 hover:text-stone-900 transition-colors"
+              style={{
+                padding: '0.5rem 1rem',
+                fontSize: '0.75rem',
+                color: '#57534e',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer'
+              }}
             >
               取消
             </button>
             <button
               onClick={handleSave}
               disabled={saved}
-              className={`px-5 py-2 text-sm rounded-lg font-medium transition-all flex items-center space-x-2 ${
-                saved
-                  ? 'bg-emerald-500 text-white'
-                  : 'bg-teal-600 text-white hover:bg-teal-700'
-              }`}
+              style={{
+                padding: '0.5rem 1rem',
+                fontSize: '0.75rem',
+                borderRadius: '0.5rem',
+                fontWeight: 500,
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem',
+                background: saved ? '#22c55e' : '#0d9488',
+                color: 'white'
+              }}
             >
               {saved ? (
                 <>
-                  <Check className="w-4 h-4" />
+                  <Check style={{ width: '0.875rem', height: '0.875rem' }} />
                   <span>已保存</span>
                 </>
               ) : (
