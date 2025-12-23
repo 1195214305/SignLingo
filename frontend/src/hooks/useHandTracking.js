@@ -3,6 +3,7 @@ import { Hands } from '@mediapipe/hands';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { detectGesture } from '../utils/gestures';
+import { verifyGesture } from '../utils/api';
 
 // MediaPipe Hands 连接线定义
 const HAND_CONNECTIONS = [
@@ -25,11 +26,13 @@ export function useHandTracking(videoRef, canvasRef, options = {}) {
   const [error, setError] = useState(null);
   const [handsDetected, setHandsDetected] = useState(false);
   const [currentGesture, setCurrentGesture] = useState(null);
+  const [edgeFeedback, setEdgeFeedback] = useState(null);
 
   const handsRef = useRef(null);
   const cameraRef = useRef(null);
   const lastGestureRef = useRef(null);
   const gestureStableCountRef = useRef(0);
+  const verifyTimeoutRef = useRef(null);
 
   // 处理检测结果
   const onResults = useCallback((results) => {
@@ -81,6 +84,23 @@ export function useHandTracking(videoRef, canvasRef, options = {}) {
           if (gestureStableCountRef.current >= 5) {
             setCurrentGesture(gesture);
             onGestureDetected?.(gesture);
+
+            // 调用边缘函数进行AI校验（防抖处理）
+            if (verifyTimeoutRef.current) {
+              clearTimeout(verifyTimeoutRef.current);
+            }
+            verifyTimeoutRef.current = setTimeout(async () => {
+              try {
+                const result = await verifyGesture(
+                  gesture.id,
+                  landmarks,
+                  gesture.confidence || 0.8
+                );
+                setEdgeFeedback(result);
+              } catch (e) {
+                console.error('边缘校验失败:', e);
+              }
+            }, 500);
           }
         } else {
           gestureStableCountRef.current = 0;
@@ -162,6 +182,7 @@ export function useHandTracking(videoRef, canvasRef, options = {}) {
     error,
     handsDetected,
     currentGesture,
+    edgeFeedback,
   };
 }
 

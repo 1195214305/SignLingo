@@ -16,6 +16,12 @@
 
 ---
 
+## 声明
+
+> **本项目由[阿里云ESA](https://www.aliyun.com/product/esa)提供加速、计算和保护**
+
+![阿里云ESA](https://img.alicdn.com/imgextra/i3/O1CN01H1UU3i1Cti9lYtFrs_!!6000000000139-2-tps-7534-844.png)
+
 ## 项目简介
 
 **SignLingo** 是一款基于浏览器的手语学习工具，利用 **MediaPipe Hands** 在前端实时识别用户手势，结合 **阿里云 ESA Pages 边缘函数** 提供 AI 校验和低延迟服务。
@@ -200,5 +206,9 @@ MIT License
 **阿里云 ESA Pages 边缘开发大赛参赛作品**
 
 Made with ❤️ for accessibility
+
+---
+
+**本项目由[阿里云ESA](https://www.aliyun.com/product/esa)提供加速、计算和保护**
 
 </div>

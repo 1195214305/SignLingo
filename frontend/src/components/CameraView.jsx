@@ -26,7 +26,7 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
     }
   }, [targetGesture, onGestureMatch]);
 
-  const { isLoading, error, handsDetected, currentGesture } = useHandTracking(
+  const { isLoading, error, handsDetected, currentGesture, edgeFeedback } = useHandTracking(
     videoRef,
     canvasRef,
     {
@@ -147,6 +147,25 @@ function CameraView({ targetGesture, onGestureMatch, enabled = true }) {
           </>
         )}
       </div>
+
+      {/* 边缘函数AI反馈 */}
+      {edgeFeedback && edgeFeedback.feedback && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-3 p-3 bg-teal-50 border border-teal-200 rounded-lg"
+        >
+          <div className="flex items-center space-x-2 text-sm">
+            <span className="text-teal-600 font-medium">AI反馈:</span>
+            <span className="text-teal-700">{edgeFeedback.feedback}</span>
+            {edgeFeedback.aiVerified !== undefined && (
+              <span className={`px-2 py-0.5 rounded text-xs ${edgeFeedback.aiVerified ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+                {edgeFeedback.aiVerified ? '✓ AI确认' : '需改进'}
+              </span>
+            )}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
