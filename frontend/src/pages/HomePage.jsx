@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Hand, BookOpen, Trophy, ArrowRight, Sparkles, Globe, Zap } from 'lucide-react';
+import { Hand, Trophy, ArrowRight, Sparkles, Globe, Zap } from 'lucide-react';
 import { GESTURE_CATEGORIES } from '../utils/gestures';
 
 function HomePage() {
@@ -28,40 +28,74 @@ function HomePage() {
   const gestureEmojis = ['👍', '✌️', '🖐️', '👌', '🤘', '☝️'];
 
   return (
-    <main className="flex-1 w-full overflow-x-hidden">
+    <main style={{ flex: 1, width: '100%', overflowX: 'hidden' }}>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-teal-50 to-stone-50 py-12 sm:py-16 lg:py-24">
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
+      <section style={{
+        background: 'linear-gradient(to bottom, #f0fdfa, #fafaf9)',
+        padding: '3rem 0'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 1.5rem'
+        }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '3rem',
+            alignItems: 'center'
+          }}>
             {/* 左侧文字 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex-1 text-center lg:text-left"
             >
-              <div className="inline-flex items-center space-x-2 bg-teal-100 text-teal-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
-                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#ccfbf1',
+                color: '#0f766e',
+                padding: '0.5rem 1rem',
+                borderRadius: '9999px',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                marginBottom: '1.5rem'
+              }}>
+                <Sparkles style={{ width: '1rem', height: '1rem' }} />
                 <span>AI 驱动的手语学习平台</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900 leading-tight mb-4 sm:mb-6">
+              <h1 style={{
+                fontSize: 'clamp(2rem, 5vw, 3rem)',
+                fontWeight: 700,
+                color: '#1c1917',
+                lineHeight: 1.2,
+                marginBottom: '1.5rem'
+              }}>
                 用双手说话
                 <br />
-                <span className="text-teal-600">让世界听见</span>
+                <span style={{ color: '#0f766e' }}>让世界听见</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-stone-600 mb-6 sm:mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#57534e',
+                marginBottom: '2rem',
+                lineHeight: 1.7,
+                maxWidth: '500px'
+              }}>
                 SignLingo 是一款基于浏览器的手语学习工具。通过摄像头实时识别您的手势，提供即时反馈，让手语学习变得简单有趣。
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Link to="/practice" className="btn-primary inline-flex items-center justify-center space-x-2">
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <Link to="/practice" className="btn-primary">
                   <span>开始练习</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight style={{ width: '1rem', height: '1rem' }} />
                 </Link>
-                <Link to="/progress" className="btn-secondary inline-flex items-center justify-center space-x-2">
-                  <Trophy className="w-4 h-4" />
+                <Link to="/progress" className="btn-secondary">
+                  <Trophy style={{ width: '1rem', height: '1rem' }} />
                   <span>查看进度</span>
                 </Link>
               </div>
@@ -72,30 +106,52 @@ function HomePage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex-1 flex justify-center lg:justify-end"
+              style={{ display: 'flex', justifyContent: 'center' }}
             >
-              <div className="relative w-full max-w-xs sm:max-w-sm">
-                <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6">
-                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                    {gestureEmojis.map((emoji, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 + i * 0.1 }}
-                        className="aspect-square bg-gradient-to-br from-stone-50 to-stone-100 rounded-xl flex items-center justify-center text-2xl sm:text-3xl lg:text-4xl hover:scale-105 transition-transform cursor-pointer"
-                      >
-                        {emoji}
-                      </motion.div>
-                    ))}
-                  </div>
-                  <p className="mt-4 text-center text-xs sm:text-sm text-stone-500">
-                    支持多种常用手势识别
-                  </p>
+              <div style={{
+                background: 'white',
+                borderRadius: '1rem',
+                padding: '1.5rem',
+                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)',
+                maxWidth: '320px',
+                width: '100%'
+              }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '0.75rem'
+                }}>
+                  {gestureEmojis.map((emoji, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + i * 0.1 }}
+                      style={{
+                        aspectRatio: '1',
+                        background: 'linear-gradient(135deg, #fafaf9, #f5f5f4)',
+                        borderRadius: '0.75rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '2rem',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s'
+                      }}
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      {emoji}
+                    </motion.div>
+                  ))}
                 </div>
-                {/* 装饰元素 - 仅在大屏显示 */}
-                <div className="hidden lg:block absolute -top-4 -right-4 w-20 h-20 bg-teal-200 rounded-full opacity-50 blur-2xl"></div>
-                <div className="hidden lg:block absolute -bottom-4 -left-4 w-24 h-24 bg-amber-200 rounded-full opacity-50 blur-2xl"></div>
+                <p style={{
+                  marginTop: '1rem',
+                  textAlign: 'center',
+                  fontSize: '0.875rem',
+                  color: '#78716c'
+                }}>
+                  支持多种常用手势识别
+                </p>
               </div>
             </motion.div>
           </div>
@@ -103,18 +159,27 @@ function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 mb-3 sm:mb-4">
+      <section style={{ padding: '4rem 0', background: 'white' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+              fontWeight: 700,
+              color: '#1c1917',
+              marginBottom: '1rem'
+            }}>
               为什么选择 SignLingo
             </h2>
-            <p className="text-sm sm:text-base text-stone-600 max-w-2xl mx-auto">
+            <p style={{ color: '#57534e', maxWidth: '600px', margin: '0 auto' }}>
               结合前沿 AI 技术与边缘计算，为您提供流畅、准确的手语学习体验
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1.5rem'
+          }}>
             {features.map((feature, i) => (
               <motion.div
                 key={i}
@@ -122,15 +187,36 @@ function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-stone-50 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 hover:shadow-lg transition-shadow"
+                style={{
+                  background: '#fafaf9',
+                  borderRadius: '1rem',
+                  padding: '2rem'
+                }}
               >
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-lg sm:rounded-xl ${feature.color} flex items-center justify-center mb-4 sm:mb-6`}>
-                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+                <div style={{
+                  width: '3.5rem',
+                  height: '3.5rem',
+                  borderRadius: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '1.5rem',
+                  background: feature.color.includes('teal') ? '#ccfbf1' :
+                             feature.color.includes('amber') ? '#fef3c7' : '#dbeafe',
+                  color: feature.color.includes('teal') ? '#0f766e' :
+                         feature.color.includes('amber') ? '#d97706' : '#2563eb'
+                }}>
+                  <feature.icon style={{ width: '1.5rem', height: '1.5rem' }} />
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-stone-900 mb-2 sm:mb-3">
+                <h3 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 600,
+                  color: '#1c1917',
+                  marginBottom: '0.75rem'
+                }}>
                   {feature.title}
                 </h3>
-                <p className="text-sm sm:text-base text-stone-600">
+                <p style={{ color: '#57534e', lineHeight: 1.6 }}>
                   {feature.description}
                 </p>
               </motion.div>
@@ -140,18 +226,27 @@ function HomePage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-stone-50">
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 mb-3 sm:mb-4">
+      <section style={{ padding: '4rem 0', background: '#fafaf9' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+              fontWeight: 700,
+              color: '#1c1917',
+              marginBottom: '1rem'
+            }}>
               学习内容
             </h2>
-            <p className="text-sm sm:text-base text-stone-600">
+            <p style={{ color: '#57534e' }}>
               从基础数字到日常交流，循序渐进掌握手语
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.5rem'
+          }}>
             {Object.values(GESTURE_CATEGORIES).map((category, i) => (
               <motion.div
                 key={category.id}
@@ -159,31 +254,62 @@ function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow"
+                style={{
+                  background: 'white',
+                  borderRadius: '1rem',
+                  padding: '1.5rem',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                }}
               >
-                <div className="flex items-start justify-between mb-4 sm:mb-6">
-                  <div className="flex items-center space-x-3 sm:space-x-4">
-                    <span className="text-3xl sm:text-4xl">{category.icon}</span>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  marginBottom: '1rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <span style={{ fontSize: '2.5rem' }}>{category.icon}</span>
                     <div>
-                      <h3 className="text-lg sm:text-xl font-semibold text-stone-900">
+                      <h3 style={{
+                        fontSize: '1.25rem',
+                        fontWeight: 600,
+                        color: '#1c1917'
+                      }}>
                         {category.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-stone-500">{category.nameEn}</p>
+                      <p style={{ fontSize: '0.875rem', color: '#78716c' }}>
+                        {category.nameEn}
+                      </p>
                     </div>
                   </div>
-                  <span className="bg-teal-100 text-teal-700 px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap">
+                  <span style={{
+                    background: '#ccfbf1',
+                    color: '#0f766e',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    whiteSpace: 'nowrap'
+                  }}>
                     {category.gestures.length} 个手势
                   </span>
                 </div>
-                <p className="text-sm sm:text-base text-stone-600 mb-4 sm:mb-6">
+                <p style={{ color: '#57534e', marginBottom: '1rem', lineHeight: 1.6 }}>
                   {category.description}
                 </p>
                 <Link
                   to={`/practice?category=${category.id}`}
-                  className="inline-flex items-center space-x-2 text-teal-600 font-medium hover:text-teal-700 text-sm sm:text-base"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    color: '#0f766e',
+                    fontWeight: 500,
+                    textDecoration: 'none'
+                  }}
                 >
                   <span>开始学习</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight style={{ width: '1rem', height: '1rem' }} />
                 </Link>
               </motion.div>
             ))}
@@ -192,19 +318,47 @@ function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-teal-600 to-teal-500">
-        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">
+      <section style={{
+        padding: '4rem 0',
+        background: 'linear-gradient(135deg, #0f766e, #14b8a6)'
+      }}>
+        <div style={{
+          maxWidth: '800px',
+          margin: '0 auto',
+          padding: '0 1.5rem',
+          textAlign: 'center'
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+            fontWeight: 700,
+            color: 'white',
+            marginBottom: '1rem'
+          }}>
             准备好开始学习了吗？
           </h2>
-          <p className="text-teal-100 text-base sm:text-lg mb-6 sm:mb-8">
+          <p style={{
+            color: 'rgba(255,255,255,0.9)',
+            fontSize: '1.125rem',
+            marginBottom: '2rem'
+          }}>
             只需一个摄像头，即可开始您的手语学习之旅
           </p>
           <Link
             to="/practice"
-            className="inline-flex items-center space-x-2 bg-white text-teal-600 px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-teal-50 transition-colors shadow-lg text-sm sm:text-base"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: 'white',
+              color: '#0f766e',
+              padding: '1rem 2rem',
+              borderRadius: '0.5rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+            }}
           >
-            <Hand className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Hand style={{ width: '1.25rem', height: '1.25rem' }} />
             <span>立即开始</span>
           </Link>
         </div>
