@@ -21,21 +21,61 @@ function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-stone-50/95 backdrop-blur-sm border-b border-stone-200">
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between h-14 sm:h-16">
+      <header style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        background: 'rgba(250, 250, 249, 0.95)',
+        backdropFilter: 'blur(8px)',
+        borderBottom: '1px solid #e7e5e4'
+      }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '1152px',
+          margin: '0 auto',
+          padding: '0 1rem'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '3.5rem'
+          }}>
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Hand className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            <Link to="/" style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              textDecoration: 'none'
+            }}>
+              <div style={{
+                width: '2.25rem',
+                height: '2.25rem',
+                background: 'linear-gradient(to bottom right, #14b8a6, #0d9488)',
+                borderRadius: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <Hand style={{ width: '1.25rem', height: '1.25rem', color: 'white' }} />
               </div>
-              <span className="text-lg sm:text-xl font-semibold tracking-tight text-stone-900">
+              <span style={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+                letterSpacing: '-0.025em',
+                color: '#1c1917'
+              }}>
                 SignLingo
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
+            <nav style={{
+              display: 'none',
+              alignItems: 'center',
+              gap: '0.25rem'
+            }} className="desktop-nav">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
                 const Icon = item.icon;
@@ -43,13 +83,21 @@ function Header() {
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm transition-colors ${
-                      isActive
-                        ? 'bg-teal-50 text-teal-700 font-medium'
-                        : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
-                    }`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '0.5rem',
+                      fontSize: '0.875rem',
+                      textDecoration: 'none',
+                      transition: 'all 0.2s',
+                      background: isActive ? '#f0fdfa' : 'transparent',
+                      color: isActive ? '#0f766e' : '#57534e',
+                      fontWeight: isActive ? 500 : 400
+                    }}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon style={{ width: '1rem', height: '1rem' }} />
                     <span>{item.label}</span>
                   </Link>
                 );
@@ -57,24 +105,57 @@ function Header() {
             </nav>
 
             {/* Status & Settings */}
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="hidden sm:flex items-center space-x-1.5 sm:space-x-2 text-xs text-stone-500 bg-stone-100 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full">
-                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${apiConfigured ? 'bg-emerald-500' : 'bg-amber-500'} animate-pulse`}></span>
-                <span className="whitespace-nowrap">{apiConfigured ? 'AI 已启用' : '基础模式'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.75rem',
+                color: '#78716c',
+                background: '#f5f5f4',
+                padding: '0.375rem 0.75rem',
+                borderRadius: '9999px'
+              }}>
+                <span style={{
+                  width: '0.375rem',
+                  height: '0.375rem',
+                  borderRadius: '50%',
+                  flexShrink: 0,
+                  background: apiConfigured ? '#22c55e' : '#f59e0b',
+                  animation: 'pulse 2s infinite'
+                }}></span>
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  {apiConfigured ? 'AI 已启用' : '基础模式'}
+                </span>
               </div>
               <button
                 onClick={() => setShowSettings(true)}
-                className="p-1.5 sm:p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors"
+                style={{
+                  padding: '0.5rem',
+                  color: '#78716c',
+                  background: 'transparent',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
                 title="API 设置"
               >
-                <Settings className="w-5 h-5" />
+                <Settings style={{ width: '1.25rem', height: '1.25rem' }} />
               </button>
             </div>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <nav className="md:hidden flex items-center justify-around py-2 border-t border-stone-200 bg-stone-50">
+        <nav style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          padding: '0.5rem 0',
+          borderTop: '1px solid #e7e5e4',
+          background: '#fafaf9'
+        }} className="mobile-nav">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             const Icon = item.icon;
@@ -82,12 +163,19 @@ function Header() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center space-y-0.5 px-4 py-1 min-w-0 ${
-                  isActive ? 'text-teal-600' : 'text-stone-500'
-                }`}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.125rem',
+                  padding: '0.25rem 1rem',
+                  minWidth: 0,
+                  textDecoration: 'none',
+                  color: isActive ? '#0d9488' : '#78716c'
+                }}
               >
-                <Icon className="w-5 h-5" />
-                <span className="text-xs">{item.label}</span>
+                <Icon style={{ width: '1.25rem', height: '1.25rem' }} />
+                <span style={{ fontSize: '0.75rem' }}>{item.label}</span>
               </Link>
             );
           })}
@@ -95,6 +183,21 @@ function Header() {
       </header>
 
       <ApiKeyModal isOpen={showSettings} onClose={() => setShowSettings(false)} />
+
+      <style>{`
+        @media (min-width: 768px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .mobile-nav {
+            display: none !important;
+          }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
     </>
   );
 }

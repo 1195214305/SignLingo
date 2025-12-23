@@ -72,102 +72,179 @@ function ProgressPage() {
   ];
 
   return (
-    <div className="flex-1 bg-stone-50 py-8">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-stone-900">学习进度</h1>
-          <p className="text-stone-500 mt-1">追踪你的手语学习之旅</p>
+    <div style={{ flex: 1, background: '#fafaf9', padding: '2rem 0' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 1.5rem' }}>
+        {/* 页面标题 */}
+        <div style={{ marginBottom: '2rem' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1c1917' }}>学习进度</h1>
+          <p style={{ color: '#78716c', marginTop: '0.25rem' }}>追踪你的手语学习之旅</p>
         </div>
 
         {/* 统计卡片 */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1rem',
+          marginBottom: '2rem'
+        }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl p-6 shadow-sm"
+            style={{
+              background: 'white',
+              borderRadius: '0.75rem',
+              padding: '1.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            }}
           >
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
-                <Target className="w-5 h-5 text-teal-600" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+              <div style={{
+                width: '2.5rem',
+                height: '2.5rem',
+                background: '#ccfbf1',
+                borderRadius: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Target style={{ width: '1.25rem', height: '1.25rem', color: '#0d9488' }} />
               </div>
-              <span className="text-sm text-stone-500">已练习</span>
+              <span style={{ fontSize: '0.875rem', color: '#78716c' }}>已练习</span>
             </div>
-            <p className="text-3xl font-bold text-stone-900">{stats.totalPracticed}</p>
-            <p className="text-sm text-stone-400">个手势</p>
+            <p style={{ fontSize: '1.875rem', fontWeight: 700, color: '#1c1917' }}>{stats.totalPracticed}</p>
+            <p style={{ fontSize: '0.875rem', color: '#a8a29e' }}>个手势</p>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl p-6 shadow-sm"
+            style={{
+              background: 'white',
+              borderRadius: '0.75rem',
+              padding: '1.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            }}
           >
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                <Flame className="w-5 h-5 text-amber-600" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+              <div style={{
+                width: '2.5rem',
+                height: '2.5rem',
+                background: '#fef3c7',
+                borderRadius: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Flame style={{ width: '1.25rem', height: '1.25rem', color: '#d97706' }} />
               </div>
-              <span className="text-sm text-stone-500">连续天数</span>
+              <span style={{ fontSize: '0.875rem', color: '#78716c' }}>连续天数</span>
             </div>
-            <p className="text-3xl font-bold text-stone-900">{stats.streak}</p>
-            <p className="text-sm text-stone-400">天</p>
+            <p style={{ fontSize: '1.875rem', fontWeight: 700, color: '#1c1917' }}>{stats.streak}</p>
+            <p style={{ fontSize: '0.875rem', color: '#a8a29e' }}>天</p>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl p-6 shadow-sm"
+            style={{
+              background: 'white',
+              borderRadius: '0.75rem',
+              padding: '1.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            }}
           >
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-emerald-600" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+              <div style={{
+                width: '2.5rem',
+                height: '2.5rem',
+                background: '#d1fae5',
+                borderRadius: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <TrendingUp style={{ width: '1.25rem', height: '1.25rem', color: '#059669' }} />
               </div>
-              <span className="text-sm text-stone-500">准确率</span>
+              <span style={{ fontSize: '0.875rem', color: '#78716c' }}>准确率</span>
             </div>
-            <p className="text-3xl font-bold text-stone-900">{stats.accuracy}%</p>
-            <p className="text-sm text-stone-400">平均</p>
+            <p style={{ fontSize: '1.875rem', fontWeight: 700, color: '#1c1917' }}>{stats.accuracy}%</p>
+            <p style={{ fontSize: '0.875rem', color: '#a8a29e' }}>平均</p>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl p-6 shadow-sm"
+            style={{
+              background: 'white',
+              borderRadius: '0.75rem',
+              padding: '1.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            }}
           >
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-blue-600" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+              <div style={{
+                width: '2.5rem',
+                height: '2.5rem',
+                background: '#dbeafe',
+                borderRadius: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Calendar style={{ width: '1.25rem', height: '1.25rem', color: '#2563eb' }} />
               </div>
-              <span className="text-sm text-stone-500">上次练习</span>
+              <span style={{ fontSize: '0.875rem', color: '#78716c' }}>上次练习</span>
             </div>
-            <p className="text-xl font-bold text-stone-900">
+            <p style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1c1917' }}>
               {stats.lastPractice || '尚未开始'}
             </p>
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        {/* 分类进度和成就 */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+          gap: '2rem'
+        }}>
           {/* 分类进度 */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-stone-900 mb-6">分类进度</h2>
-            <div className="space-y-6">
+          <div style={{
+            background: 'white',
+            borderRadius: '1rem',
+            padding: '1.5rem',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}>
+            <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#1c1917', marginBottom: '1.5rem' }}>
+              分类进度
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {Object.entries(GESTURE_CATEGORIES).map(([catId, category]) => {
                 const progress = categoryProgress[catId] || { completed: 0, total: category.gestures.length };
                 const percentage = Math.round((progress.completed / progress.total) * 100);
 
                 return (
                   <div key={catId}>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-2xl">{category.icon}</span>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '0.5rem'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <span style={{ fontSize: '1.5rem' }}>{category.icon}</span>
                         <div>
-                          <p className="font-medium text-stone-900">{category.name}</p>
-                          <p className="text-sm text-stone-500">
+                          <p style={{ fontWeight: 500, color: '#1c1917' }}>{category.name}</p>
+                          <p style={{ fontSize: '0.875rem', color: '#78716c' }}>
                             {progress.completed} / {progress.total} 完成
                           </p>
                         </div>
                       </div>
-                      <span className="text-sm font-medium text-teal-600">{percentage}%</span>
+                      <span style={{ fontSize: '0.875rem', fontWeight: 500, color: '#0d9488' }}>
+                        {percentage}%
+                      </span>
                     </div>
                     <div className="progress-bar">
                       <motion.div
@@ -184,32 +261,62 @@ function ProgressPage() {
           </div>
 
           {/* 成就 */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-stone-900 mb-6 flex items-center space-x-2">
-              <Trophy className="w-5 h-5 text-amber-500" />
+          <div style={{
+            background: 'white',
+            borderRadius: '1rem',
+            padding: '1.5rem',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}>
+            <h2 style={{
+              fontSize: '1.125rem',
+              fontWeight: 600,
+              color: '#1c1917',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <Trophy style={{ width: '1.25rem', height: '1.25rem', color: '#f59e0b' }} />
               <span>成就</span>
             </h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '1rem'
+            }}>
               {achievements.map((achievement) => (
                 <motion.div
                   key={achievement.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className={`p-4 rounded-xl border-2 ${
-                    achievement.unlocked
-                      ? 'border-amber-200 bg-amber-50'
-                      : 'border-stone-200 bg-stone-50 opacity-60'
-                  }`}
+                  style={{
+                    padding: '1rem',
+                    borderRadius: '0.75rem',
+                    border: `2px solid ${achievement.unlocked ? '#fde68a' : '#e7e5e4'}`,
+                    background: achievement.unlocked ? '#fffbeb' : '#fafaf9',
+                    opacity: achievement.unlocked ? 1 : 0.6
+                  }}
                 >
-                  <div className="text-3xl mb-2">{achievement.icon}</div>
-                  <h3 className={`font-medium ${
-                    achievement.unlocked ? 'text-stone-900' : 'text-stone-500'
-                  }`}>
+                  <div style={{ fontSize: '1.875rem', marginBottom: '0.5rem' }}>{achievement.icon}</div>
+                  <h3 style={{
+                    fontWeight: 500,
+                    color: achievement.unlocked ? '#1c1917' : '#78716c'
+                  }}>
                     {achievement.name}
                   </h3>
-                  <p className="text-xs text-stone-500 mt-1">{achievement.description}</p>
+                  <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.25rem' }}>
+                    {achievement.description}
+                  </p>
                   {achievement.unlocked && (
-                    <span className="inline-block mt-2 text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full">
+                    <span style={{
+                      display: 'inline-block',
+                      marginTop: '0.5rem',
+                      fontSize: '0.75rem',
+                      background: '#fde68a',
+                      color: '#92400e',
+                      padding: '0.125rem 0.5rem',
+                      borderRadius: '9999px'
+                    }}>
                       已解锁
                     </span>
                   )}
@@ -220,15 +327,38 @@ function ProgressPage() {
         </div>
 
         {/* 提示 */}
-        <div className="mt-8 bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl p-6 text-white">
-          <div className="flex items-center justify-between">
+        <div style={{
+          marginTop: '2rem',
+          background: 'linear-gradient(to right, #0d9488, #14b8a6)',
+          borderRadius: '1rem',
+          padding: '1.5rem',
+          color: 'white'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem'
+          }}>
             <div>
-              <h3 className="text-lg font-semibold mb-2">继续你的学习之旅</h3>
-              <p className="text-teal-100">每天练习一点，积少成多，你会成为手语达人！</p>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                继续你的学习之旅
+              </h3>
+              <p style={{ color: 'rgba(255,255,255,0.8)' }}>
+                每天练习一点，积少成多，你会成为手语达人！
+              </p>
             </div>
             <a
               href="/practice"
-              className="bg-white text-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors"
+              style={{
+                background: 'white',
+                color: '#0d9488',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.5rem',
+                fontWeight: 600,
+                textDecoration: 'none'
+              }}
             >
               开始练习
             </a>
