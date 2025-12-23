@@ -1,41 +1,36 @@
 /**
  * 手语手势数据库
- * 包含基础手语手势的定义和识别规则
+ * 优化版：每个手势的手指状态唯一，避免识别混淆
+ *
+ * 手指状态组合说明：
+ * - 五指张开: five (五)
+ * - 四指张开(无拇指): four (四)
+ * - 三指张开(食中无): three (三)
+ * - 二指张开(食中): two (二/V)
+ * - 一指张开(食指): one (一)
+ * - 握拳: fist (拳头)
+ * - 拇指伸直: thumbsUp (赞)
+ * - 拇指+小指: six (六/打电话)
+ * - 拇指+食指+中指: seven (七)
+ * - 拇指+食指+中指+无名指: eight (八)
+ * - 拇指+中指+无名指+小指: nine (九)
+ * - 食指+小指: rock (摇滚)
+ * - 拇指+食指: letterL (L)
+ * - 拇指+食指+小指: love (爱)
  */
 
-// 手指状态检测阈值
-const FINGER_THRESHOLDS = {
-  EXTENDED: 0.7,  // 手指伸直阈值
-  BENT: 0.3,      // 手指弯曲阈值
-};
-
-// 基础手语手势库
+// 基础手语手势库 - 每个手势手指状态唯一
 export const GESTURES = {
-  // ========== 数字手势 (0-10) ==========
-  zero: {
-    id: 'zero',
-    name: '零',
-    nameEn: 'Zero',
-    category: 'numbers',
-    description: '握拳，拇指和食指形成圆圈',
-    emoji: '0️⃣',
-    difficulty: 2,
-    fingers: {
-      thumb: 'touching_index',
-      index: 'touching_thumb',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
+  // ========== 数字手势 (1-10) ==========
   one: {
     id: 'one',
-    name: '一',
-    nameEn: 'One',
+    name: '一 / 指向',
+    nameEn: 'One / Point',
     category: 'numbers',
     description: '伸出食指，其他手指握拳',
-    emoji: '1️⃣',
+    emoji: '☝️',
     difficulty: 1,
+    priority: 1,
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -46,12 +41,13 @@ export const GESTURES = {
   },
   two: {
     id: 'two',
-    name: '二',
-    nameEn: 'Two',
+    name: '二 / 胜利',
+    nameEn: 'Two / Victory',
     category: 'numbers',
     description: '伸出食指和中指，形成V字',
-    emoji: '2️⃣',
+    emoji: '✌️',
     difficulty: 1,
+    priority: 1,
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -68,6 +64,7 @@ export const GESTURES = {
     description: '伸出食指、中指和无名指',
     emoji: '3️⃣',
     difficulty: 1,
+    priority: 1,
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -84,6 +81,7 @@ export const GESTURES = {
     description: '伸出四根手指，拇指弯曲',
     emoji: '4️⃣',
     difficulty: 1,
+    priority: 1,
     fingers: {
       thumb: 'bent',
       index: 'extended',
@@ -94,12 +92,13 @@ export const GESTURES = {
   },
   five: {
     id: 'five',
-    name: '五',
-    nameEn: 'Five',
+    name: '五 / 停',
+    nameEn: 'Five / Stop',
     category: 'numbers',
     description: '五指张开',
-    emoji: '5️⃣',
+    emoji: '🖐️',
     difficulty: 1,
+    priority: 1,
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -110,12 +109,13 @@ export const GESTURES = {
   },
   six: {
     id: 'six',
-    name: '六',
-    nameEn: 'Six',
+    name: '六 / 打电话',
+    nameEn: 'Six / Call',
     category: 'numbers',
     description: '伸出拇指和小指，其他手指弯曲',
-    emoji: '6️⃣',
+    emoji: '🤙',
     difficulty: 2,
+    priority: 1,
     fingers: {
       thumb: 'extended',
       index: 'bent',
@@ -132,6 +132,7 @@ export const GESTURES = {
     description: '伸出拇指、食指和中指',
     emoji: '7️⃣',
     difficulty: 2,
+    priority: 1,
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -148,6 +149,7 @@ export const GESTURES = {
     description: '伸出拇指、食指、中指和无名指',
     emoji: '8️⃣',
     difficulty: 2,
+    priority: 1,
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -161,9 +163,10 @@ export const GESTURES = {
     name: '九',
     nameEn: 'Nine',
     category: 'numbers',
-    description: '食指弯曲成钩状，其他手指伸直',
+    description: '食指弯曲，其他手指伸直',
     emoji: '9️⃣',
     difficulty: 2,
+    priority: 1,
     fingers: {
       thumb: 'extended',
       index: 'bent',
@@ -174,12 +177,13 @@ export const GESTURES = {
   },
   ten: {
     id: 'ten',
-    name: '十',
-    nameEn: 'Ten',
+    name: '十 / 赞',
+    nameEn: 'Ten / Thumbs Up',
     category: 'numbers',
-    description: '竖起大拇指，其他手指握拳（或双手各伸五指）',
-    emoji: '🔟',
+    description: '竖起大拇指，其他手指握拳',
+    emoji: '👍',
     difficulty: 1,
+    priority: 1,
     fingers: {
       thumb: 'extended',
       index: 'bent',
@@ -190,354 +194,66 @@ export const GESTURES = {
   },
 
   // ========== 常用手势 ==========
-  thumbsUp: {
-    id: 'thumbsUp',
-    name: '好/赞',
-    nameEn: 'Thumbs Up',
-    category: 'common',
-    description: '竖起大拇指，其他手指握拳，表示赞同或很好',
-    emoji: '👍',
-    difficulty: 1,
-    fingers: {
-      thumb: 'extended',
-      index: 'bent',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
   fist: {
     id: 'fist',
-    name: '拳头/加油',
-    nameEn: 'Fist',
+    name: '拳头 / 加油',
+    nameEn: 'Fist / Fighting',
     category: 'common',
     description: '握紧拳头，表示加油或力量',
     emoji: '✊',
     difficulty: 1,
+    priority: 2,
     fingers: {
       thumb: 'bent',
       index: 'bent',
       middle: 'bent',
       ring: 'bent',
       pinky: 'bent',
-    },
-  },
-  ok: {
-    id: 'ok',
-    name: 'OK/好的',
-    nameEn: 'OK',
-    category: 'common',
-    description: '拇指和食指形成圆圈，其他手指伸直',
-    emoji: '👌',
-    difficulty: 2,
-    fingers: {
-      thumb: 'touching_index',
-      index: 'touching_thumb',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
     },
   },
   rock: {
     id: 'rock',
-    name: '摇滚/爱你',
-    nameEn: 'Rock / I Love You',
+    name: '摇滚',
+    nameEn: 'Rock',
     category: 'common',
     description: '伸出食指和小指，其他手指弯曲',
     emoji: '🤘',
     difficulty: 2,
+    priority: 2,
     fingers: {
       thumb: 'bent',
       index: 'extended',
       middle: 'bent',
       ring: 'bent',
       pinky: 'extended',
-    },
-  },
-  call: {
-    id: 'call',
-    name: '打电话',
-    nameEn: 'Call Me',
-    category: 'common',
-    description: '伸出拇指和小指，其他手指弯曲，模拟电话',
-    emoji: '🤙',
-    difficulty: 2,
-    fingers: {
-      thumb: 'extended',
-      index: 'bent',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'extended',
-    },
-  },
-  point: {
-    id: 'point',
-    name: '指向/这个',
-    nameEn: 'Point',
-    category: 'common',
-    description: '伸出食指指向前方，表示指示方向或选择',
-    emoji: '👆',
-    difficulty: 1,
-    fingers: {
-      thumb: 'bent',
-      index: 'extended',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  peace: {
-    id: 'peace',
-    name: '和平/胜利',
-    nameEn: 'Peace / Victory',
-    category: 'common',
-    description: '伸出食指和中指形成V字，表示和平或胜利',
-    emoji: '✌️',
-    difficulty: 1,
-    fingers: {
-      thumb: 'bent',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  stop: {
-    id: 'stop',
-    name: '停/等一下',
-    nameEn: 'Stop',
-    category: 'common',
-    description: '五指张开，手掌朝前，表示停止',
-    emoji: '🖐️',
-    difficulty: 1,
-    fingers: {
-      thumb: 'extended',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
-    },
-  },
-
-  // ========== 日常交流手势 ==========
-  hello: {
-    id: 'hello',
-    name: '你好',
-    nameEn: 'Hello',
-    category: 'daily',
-    description: '五指张开，手掌朝前轻轻挥动',
-    emoji: '👋',
-    difficulty: 1,
-    fingers: {
-      thumb: 'extended',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
-    },
-  },
-  thanks: {
-    id: 'thanks',
-    name: '谢谢',
-    nameEn: 'Thank You',
-    category: 'daily',
-    description: '手掌朝下，从嘴边向前移动',
-    emoji: '🙏',
-    difficulty: 2,
-    fingers: {
-      thumb: 'extended',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
-    },
-  },
-  sorry: {
-    id: 'sorry',
-    name: '对不起',
-    nameEn: 'Sorry',
-    category: 'daily',
-    description: '握拳放在胸前，做圆周运动',
-    emoji: '😔',
-    difficulty: 2,
-    fingers: {
-      thumb: 'bent',
-      index: 'bent',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  please: {
-    id: 'please',
-    name: '请',
-    nameEn: 'Please',
-    category: 'daily',
-    description: '手掌朝上，向前伸出',
-    emoji: '🤲',
-    difficulty: 1,
-    fingers: {
-      thumb: 'extended',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
-    },
-  },
-  yes: {
-    id: 'yes',
-    name: '是/对',
-    nameEn: 'Yes',
-    category: 'daily',
-    description: '握拳，像点头一样上下移动',
-    emoji: '✅',
-    difficulty: 1,
-    fingers: {
-      thumb: 'bent',
-      index: 'bent',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  no: {
-    id: 'no',
-    name: '不/不是',
-    nameEn: 'No',
-    category: 'daily',
-    description: '食指和中指伸出，像剪刀一样合拢',
-    emoji: '❌',
-    difficulty: 2,
-    fingers: {
-      thumb: 'bent',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  help: {
-    id: 'help',
-    name: '帮助',
-    nameEn: 'Help',
-    category: 'daily',
-    description: '一只手握拳放在另一只手掌上，向上推',
-    emoji: '🆘',
-    difficulty: 2,
-    fingers: {
-      thumb: 'extended',
-      index: 'bent',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
     },
   },
   love: {
     id: 'love',
-    name: '爱/喜欢',
-    nameEn: 'Love',
-    category: 'daily',
-    description: '双手交叉放在胸前，或伸出拇指、食指和小指',
-    emoji: '❤️',
+    name: '爱你',
+    nameEn: 'I Love You',
+    category: 'common',
+    description: '伸出拇指、食指和小指',
+    emoji: '🤟',
     difficulty: 2,
+    priority: 2,
     fingers: {
       thumb: 'extended',
       index: 'extended',
       middle: 'bent',
       ring: 'bent',
-      pinky: 'extended',
-    },
-  },
-
-  // ========== 字母手势 (A-F) ==========
-  letterA: {
-    id: 'letterA',
-    name: '字母A',
-    nameEn: 'Letter A',
-    category: 'alphabet',
-    description: '握拳，拇指贴在拳头侧面',
-    emoji: '🅰️',
-    difficulty: 1,
-    fingers: {
-      thumb: 'bent',
-      index: 'bent',
-      middle: 'bent',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  letterB: {
-    id: 'letterB',
-    name: '字母B',
-    nameEn: 'Letter B',
-    category: 'alphabet',
-    description: '四指伸直并拢，拇指弯曲贴在手掌',
-    emoji: '🅱️',
-    difficulty: 1,
-    fingers: {
-      thumb: 'bent',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
-    },
-  },
-  letterC: {
-    id: 'letterC',
-    name: '字母C',
-    nameEn: 'Letter C',
-    category: 'alphabet',
-    description: '手指弯曲成C形',
-    emoji: '©️',
-    difficulty: 2,
-    fingers: {
-      thumb: 'extended',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'extended',
-    },
-  },
-  letterD: {
-    id: 'letterD',
-    name: '字母D',
-    nameEn: 'Letter D',
-    category: 'alphabet',
-    description: '食指伸直，其他手指和拇指形成圆圈',
-    emoji: '🇩',
-    difficulty: 2,
-    fingers: {
-      thumb: 'touching_middle',
-      index: 'extended',
-      middle: 'touching_thumb',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  letterF: {
-    id: 'letterF',
-    name: '字母F',
-    nameEn: 'Letter F',
-    category: 'alphabet',
-    description: '拇指和食指形成圆圈，其他三指伸直',
-    emoji: '🇫',
-    difficulty: 2,
-    fingers: {
-      thumb: 'touching_index',
-      index: 'touching_thumb',
-      middle: 'extended',
-      ring: 'extended',
       pinky: 'extended',
     },
   },
   letterL: {
     id: 'letterL',
-    name: '字母L',
-    nameEn: 'Letter L',
-    category: 'alphabet',
-    description: '拇指和食指伸出成L形，其他手指弯曲',
-    emoji: '🇱',
+    name: '字母L / 枪',
+    nameEn: 'Letter L / Gun',
+    category: 'common',
+    description: '拇指和食指伸出成L形',
+    emoji: '👉',
     difficulty: 1,
+    priority: 2,
     fingers: {
       thumb: 'extended',
       index: 'extended',
@@ -546,52 +262,38 @@ export const GESTURES = {
       pinky: 'bent',
     },
   },
-  letterV: {
-    id: 'letterV',
-    name: '字母V',
-    nameEn: 'Letter V',
-    category: 'alphabet',
-    description: '食指和中指伸出成V形',
-    emoji: '🇻',
-    difficulty: 1,
+  pinkyUp: {
+    id: 'pinkyUp',
+    name: '小指',
+    nameEn: 'Pinky',
+    category: 'common',
+    description: '只伸出小指',
+    emoji: '🤙',
+    difficulty: 2,
+    priority: 2,
     fingers: {
       thumb: 'bent',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'bent',
-      pinky: 'bent',
-    },
-  },
-  letterW: {
-    id: 'letterW',
-    name: '字母W',
-    nameEn: 'Letter W',
-    category: 'alphabet',
-    description: '食指、中指、无名指伸出成W形',
-    emoji: '🇼',
-    difficulty: 1,
-    fingers: {
-      thumb: 'bent',
-      index: 'extended',
-      middle: 'extended',
-      ring: 'extended',
-      pinky: 'bent',
-    },
-  },
-  letterY: {
-    id: 'letterY',
-    name: '字母Y',
-    nameEn: 'Letter Y',
-    category: 'alphabet',
-    description: '拇指和小指伸出成Y形',
-    emoji: '🇾',
-    difficulty: 1,
-    fingers: {
-      thumb: 'extended',
       index: 'bent',
       middle: 'bent',
       ring: 'bent',
       pinky: 'extended',
+    },
+  },
+  middleFinger: {
+    id: 'middleFinger',
+    name: '中指',
+    nameEn: 'Middle Finger',
+    category: 'common',
+    description: '只伸出中指',
+    emoji: '🖕',
+    difficulty: 2,
+    priority: 2,
+    fingers: {
+      thumb: 'bent',
+      index: 'bent',
+      middle: 'extended',
+      ring: 'bent',
+      pinky: 'bent',
     },
   },
 };
@@ -601,10 +303,10 @@ export const GESTURE_CATEGORIES = {
   numbers: {
     id: 'numbers',
     name: '数字手势',
-    nameEn: 'Numbers (0-10)',
-    description: '学习用手语表示数字0到10',
+    nameEn: 'Numbers (1-10)',
+    description: '学习用手语表示数字1到10',
     icon: '🔢',
-    gestures: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    gestures: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
   },
   common: {
     id: 'common',
@@ -612,23 +314,7 @@ export const GESTURE_CATEGORIES = {
     nameEn: 'Common Gestures',
     description: '日常交流中最常用的手势',
     icon: '💬',
-    gestures: ['thumbsUp', 'fist', 'ok', 'rock', 'call', 'point', 'peace', 'stop'],
-  },
-  daily: {
-    id: 'daily',
-    name: '日常交流',
-    nameEn: 'Daily Communication',
-    description: '日常生活中常用的交流手势',
-    icon: '🗣️',
-    gestures: ['hello', 'thanks', 'sorry', 'please', 'yes', 'no', 'help', 'love'],
-  },
-  alphabet: {
-    id: 'alphabet',
-    name: '字母手势',
-    nameEn: 'Alphabet',
-    description: '学习手语字母表',
-    icon: '🔤',
-    gestures: ['letterA', 'letterB', 'letterC', 'letterD', 'letterF', 'letterL', 'letterV', 'letterW', 'letterY'],
+    gestures: ['fist', 'rock', 'love', 'letterL', 'pinkyUp', 'middleFinger'],
   },
 };
 
@@ -677,7 +363,8 @@ function isFingerExtended(landmarks, finger) {
 }
 
 /**
- * 检测当前手势
+ * 检测当前手势 - 优化版
+ * 按优先级排序，数字手势优先
  * @param {Array} landmarks - MediaPipe手部关键点
  * @returns {Object|null} 匹配的手势或null
  */
@@ -692,8 +379,13 @@ export function detectGesture(landmarks) {
     pinky: isFingerExtended(landmarks, 'pinky'),
   };
 
+  // 按优先级排序手势（数字优先）
+  const sortedGestures = Object.entries(GESTURES).sort((a, b) => {
+    return (a[1].priority || 99) - (b[1].priority || 99);
+  });
+
   // 遍历所有手势进行匹配
-  for (const [gestureId, gesture] of Object.entries(GESTURES)) {
+  for (const [gestureId, gesture] of sortedGestures) {
     let match = true;
 
     for (const [finger, expectedState] of Object.entries(gesture.fingers)) {
@@ -707,43 +399,18 @@ export function detectGesture(landmarks) {
         match = false;
         break;
       }
-      // 特殊状态（如touching）暂时跳过精确检测
-      if (expectedState.startsWith('touching')) {
-        continue;
-      }
     }
 
     if (match) {
       return {
         ...gesture,
-        confidence: calculateConfidence(fingerStates, gesture.fingers),
+        confidence: 1.0,
+        fingerStates: fingerStates,
       };
     }
   }
 
   return null;
-}
-
-/**
- * 计算手势匹配置信度
- */
-function calculateConfidence(fingerStates, expectedFingers) {
-  let matches = 0;
-  let total = 0;
-
-  for (const [finger, expectedState] of Object.entries(expectedFingers)) {
-    if (expectedState.startsWith('touching')) continue;
-
-    total++;
-    const isExtended = fingerStates[finger];
-
-    if ((expectedState === 'extended' && isExtended) ||
-        (expectedState === 'bent' && !isExtended)) {
-      matches++;
-    }
-  }
-
-  return total > 0 ? matches / total : 0;
 }
 
 /**

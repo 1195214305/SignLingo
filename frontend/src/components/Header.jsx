@@ -49,25 +49,38 @@ function Header() {
               textDecoration: 'none'
             }}>
               <div style={{
-                width: '2.25rem',
-                height: '2.25rem',
-                background: 'linear-gradient(to bottom right, #14b8a6, #0d9488)',
-                borderRadius: '0.5rem',
+                width: '2.5rem',
+                height: '2.5rem',
+                background: 'linear-gradient(135deg, #14b8a6, #0d9488)',
+                borderRadius: '0.625rem',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexShrink: 0
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(13, 148, 136, 0.3)'
               }}>
-                <Hand style={{ width: '1.25rem', height: '1.25rem', color: 'white' }} />
+                <Hand style={{ width: '1.375rem', height: '1.375rem', color: 'white' }} />
               </div>
-              <span style={{
-                fontSize: '1.25rem',
-                fontWeight: 600,
-                letterSpacing: '-0.025em',
-                color: '#1c1917'
-              }}>
-                SignLingo
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                <span style={{
+                  fontSize: '1.125rem',
+                  fontWeight: 700,
+                  letterSpacing: '-0.025em',
+                  color: '#0d9488',
+                  lineHeight: 1.2,
+                  fontFamily: "'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif"
+                }}>
+                  SignLingo
+                </span>
+                <span style={{
+                  fontSize: '0.625rem',
+                  color: '#78716c',
+                  letterSpacing: '0.02em',
+                  lineHeight: 1.2
+                }}>
+                  手语实时翻译练习板
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
