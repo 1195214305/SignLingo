@@ -465,7 +465,9 @@ function isFingerExtended(landmarks, finger) {
     const tip = landmarks[4];
     const base = landmarks[2];
     const wrist = landmarks[0];
+    const indexMcp = landmarks[5]; // 食指根部
 
+    // 计算拇指指尖到手腕的距离
     const tipToWrist = Math.sqrt(
       Math.pow(tip.x - wrist.x, 2) + Math.pow(tip.y - wrist.y, 2)
     );
@@ -473,7 +475,15 @@ function isFingerExtended(landmarks, finger) {
       Math.pow(base.x - wrist.x, 2) + Math.pow(base.y - wrist.y, 2)
     );
 
-    return tipToWrist > baseToWrist * 1.2;
+    // 计算拇指指尖到食指根部的距离（用于判断拇指是否张开）
+    const tipToIndex = Math.sqrt(
+      Math.pow(tip.x - indexMcp.x, 2) + Math.pow(tip.y - indexMcp.y, 2)
+    );
+
+    // 拇指伸直的条件更严格：
+    // 1. 指尖到手腕距离 > 指根到手腕距离的1.5倍（提高阈值）
+    // 2. 拇指指尖到食指根部距离要足够大（表示拇指真正张开）
+    return tipToWrist > baseToWrist * 1.5 && tipToIndex > 0.15;
   }
 
   const tip = landmarks[indices[3]];
