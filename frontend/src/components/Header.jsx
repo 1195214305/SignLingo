@@ -22,19 +22,19 @@ function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-stone-50/95 backdrop-blur-sm border-b border-stone-200">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="w-9 h-9 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center">
-                <Hand className="w-5 h-5 text-white" />
+            <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Hand className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="text-xl font-semibold tracking-tight text-stone-900">
+              <span className="text-lg sm:text-xl font-semibold tracking-tight text-stone-900">
                 SignLingo
               </span>
             </Link>
 
-            {/* Navigation */}
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
@@ -57,14 +57,14 @@ function Header() {
             </nav>
 
             {/* Status & Settings */}
-            <div className="flex items-center space-x-3">
-              <div className="hidden sm:flex items-center space-x-2 text-xs text-stone-500 bg-stone-100 px-3 py-1.5 rounded-full">
-                <span className={`w-1.5 h-1.5 rounded-full ${apiConfigured ? 'bg-emerald-500' : 'bg-amber-500'} animate-pulse`}></span>
-                <span>{apiConfigured ? 'AI 已启用' : '基础模式'}</span>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="hidden sm:flex items-center space-x-1.5 sm:space-x-2 text-xs text-stone-500 bg-stone-100 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full">
+                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${apiConfigured ? 'bg-emerald-500' : 'bg-amber-500'} animate-pulse`}></span>
+                <span className="whitespace-nowrap">{apiConfigured ? 'AI 已启用' : '基础模式'}</span>
               </div>
               <button
                 onClick={() => setShowSettings(true)}
-                className="p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors"
+                className="p-1.5 sm:p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors"
                 title="API 设置"
               >
                 <Settings className="w-5 h-5" />
@@ -74,7 +74,7 @@ function Header() {
         </div>
 
         {/* Mobile Navigation */}
-        <nav className="md:hidden flex items-center justify-around py-2 border-t border-stone-200">
+        <nav className="md:hidden flex items-center justify-around py-2 border-t border-stone-200 bg-stone-50">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             const Icon = item.icon;
@@ -82,7 +82,7 @@ function Header() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center space-y-1 px-4 py-1 ${
+                className={`flex flex-col items-center space-y-0.5 px-4 py-1 min-w-0 ${
                   isActive ? 'text-teal-600' : 'text-stone-500'
                 }`}
               >
